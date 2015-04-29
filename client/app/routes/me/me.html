@@ -1,0 +1,58 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+    <h3 class="centered">My Alter Ego</h3>
+    <br>
+    <form class="form" name="form" ng-submit="register(request)" novalidate>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Role</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="me.role" maxchars="70">
+        </div>
+        &nbsp;
+      </div>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Nickname (optional)</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="me.nickname" placeholder="{{nickname}}" maxchars="70">
+        </div>
+        &nbsp;
+      </div>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Hours Available This Week</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="me.hours">
+        </div>
+        &nbsp;
+      </div>
+      &nbsp;
+
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Industry</label>
+        <div class="col-lg-9">
+           <select class="form-control" id="select" ng-model="request.domain">
+             <option value="">Cross-Industry</option>
+             <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+           </select>
+        </div>
+        &nbsp;
+       </div>
+       <div class="form-group">
+         <label for="select" class="col-lg-3 control-label">Service Area</label>
+         <div class="col-lg-9">
+            <select class="form-control" id="select" ng-model="request.domain">
+              <option value="">Cross Service Area</option>
+              <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+            </select>
+         </div>
+         &nbsp;
+        </div>
+        <br>
+        <div class="centered">
+          <button class="btn btn-lg btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
