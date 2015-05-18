@@ -1,0 +1,24 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6" ng-hide="sent">
+      <br><br>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Mobile Phone #</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="verification.phone" maxchars="70">
+          <br>
+          <button class='btn btn-md btn-primary' ng-click="verify()">Send Instructions</button>
+        </div>
+        &nbsp;
+
+      </div>
+    </div>
+    <div class="col-md-offset-3 col-md-6" ng-show="sent">
+      <br><br>
+      Instructions have been sent to {{verification.phone}}!<br>
+      <p class="text-muted">Wrong number? <a href="#" ng-click="retry()">Try again.</a></p>
+      <p class="text-muted">Didn't receive it? <a href="#" ng-click="resend()">Resend.</a></p>
+    </div>
+  </div>
+</div>

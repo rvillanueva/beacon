@@ -9,11 +9,11 @@ var router = express.Router();
 router
   .get('/', passport.authenticate('linkedin', {
     state: 'test'
-  }))
+  }
+  ))
 
   .get('/callback', passport.authenticate('linkedin', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
+    failureRedirect: '/login',
     session: false
   }), auth.setTokenCookie);
 

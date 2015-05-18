@@ -29,7 +29,8 @@ require('./config/socketio')(socketio);
 require('./config/express')(app);
 require('./routes')(app);
 
-app.use(session({
+app.use(
+  session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true

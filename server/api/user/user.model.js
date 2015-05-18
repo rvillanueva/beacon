@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var authTypes = ['linkedin'];
 
 var UserSchema = new Schema({
   name: String,
@@ -11,12 +12,22 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  id: String,
   hashedPassword: String,
   provider: String,
   salt: String,
   traits: String,
   phone: String,
-  lastLogin: Date
+  verified: Boolean,
+  verification: {
+    phone: String,
+    email: String
+  },
+  lastLogin: Date,
+  hours: Number,
+  ready: Boolean,
+  title: String,
+  linkedin: {}
 });
 
 /**
@@ -97,7 +108,7 @@ UserSchema
   .pre('save', function(next) {
     if (!this.isNew) return next();
 
-    if (!validatePresenceOf(this.hashedPassword))
+    if (!validatePresenceOf(this.hashedPassword) && authTypes.indexOf(this.provider) === -1)
       next(new Error('Invalid password'));
     else
       next();

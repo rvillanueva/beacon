@@ -8,30 +8,43 @@
       <div class="form-group">
         <label for="select" class="col-lg-3 control-label">Role</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="me.role" maxchars="70">
+          <input class="form-control" id="select" ng-model="profile.title" maxchars="70">
         </div>
         &nbsp;
       </div>
       <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Nickname (optional)</label>
+        <label for="select" class="col-lg-3 control-label">Phone</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="me.nickname" placeholder="{{nickname}}" maxchars="70">
+          <input class="form-control" id="phone" ng-model="profile.phone" maxchars="70">
         </div>
         &nbsp;
       </div>
+
       <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Hours Available This Week</label>
+        <label for="hours" class="col-lg-3 control-label">Average Hours Available per Day</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="me.hours">
+          <select class="form-control" id="select" ng-model="profile.hours">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
         </div>
         &nbsp;
       </div>
       &nbsp;
 
       <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Industry</label>
+        <label for="select" class="col-lg-3 control-label">Preferred Industries</label>
         <div class="col-lg-9">
-           <select class="form-control" id="select" ng-model="request.domain">
+           <select class="form-control" id="select" ng-model="test">
              <option value="">Cross-Industry</option>
              <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
            </select>
@@ -39,18 +52,18 @@
         &nbsp;
        </div>
        <div class="form-group">
-         <label for="select" class="col-lg-3 control-label">Service Area</label>
+         <label for="select" class="col-lg-3 control-label">Preferred Service Area</label>
          <div class="col-lg-9">
-            <select class="form-control" id="select" ng-model="request.domain">
+            <select class="form-control" id="select" ng-model="test">
               <option value="">Cross Service Area</option>
               <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
             </select>
          </div>
          &nbsp;
-        </div>
+       </div>
         <br>
         <div class="centered">
-          <button class="btn btn-lg btn-primary">Save</button>
+          <button class="btn btn-lg btn-primary" ng-click="save()">Save</button>
         </div>
       </form>
     </div>

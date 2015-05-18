@@ -4,6 +4,6 @@ angular.module('heroesApp')
   .controller('MainCtrl', function ($scope, $http, Auth, User) {
 
   // Use the User $resource to fetch all users
-  $scope.users = User.query();
+  $scope.users = User.query().sort({ hours: -1});
 
   });

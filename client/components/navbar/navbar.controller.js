@@ -7,8 +7,12 @@ angular.module('heroesApp')
       'link': '/'
     },
     {
-      'title': 'Me',
+      'title': 'Profile',
       'link': '/me'
+    },
+    {
+      'title': 'Make Request',
+      'link': '/request'
     }];
 
     $scope.isCollapsed = true;
