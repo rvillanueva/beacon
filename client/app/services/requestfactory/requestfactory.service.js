@@ -5,9 +5,19 @@ angular.module('heroesApp')
     // Service logic
     // ...
 
-    var request = function(){
+    var myRequests = function(){
       var deferred = $q.defer();
-      $http.post('/api/request/').success(function(data){
+      $http.post('/api/requests/me').success(function(data){
+        deferred.resolve(data);
+      }, function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
+    var request = function(details){
+      var deferred = $q.defer();
+      $http.post('/api/requests/new', details).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -16,12 +26,20 @@ angular.module('heroesApp')
     }
     // Public API here
     return {
-      request: function () {
+      request: function (details) {
         var deferred = $q.defer()
-        request().then(function(data){
+        request(details).then(function(data){
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      myRequests: function () {
+        var deferred = $q.defer()
+        myRequests().then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;
       }
+
     };
   });

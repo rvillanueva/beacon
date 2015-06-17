@@ -49,7 +49,7 @@ exports.receive = function(req, res) {
               }
           });
           user.phone = user.verification.phone;
-          user.verified = true;
+          user.role = 'user';
           user.save(function(err) {
             if (err) return validationError(res, err);
             res.send(200);

@@ -1,0 +1,4 @@
+  name: heroes-dev
+  command: node server/app.js
+  path: .
+  memory: 124M

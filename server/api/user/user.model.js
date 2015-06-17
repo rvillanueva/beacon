@@ -16,7 +16,6 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
-  traits: String,
   phone: String,
   verified: Boolean,
   verification: {
@@ -24,10 +23,15 @@ var UserSchema = new Schema({
     email: String
   },
   lastLogin: Date,
-  hours: Number,
   ready: Boolean,
   title: String,
-  linkedin: {}
+  linkedin: {},
+  traits: {
+    industry: {},
+    service: {},
+    hours: Number,
+    skills: {}
+  }
 });
 
 /**

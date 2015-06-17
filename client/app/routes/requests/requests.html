@@ -1,0 +1,23 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="/requests/new"><button class="btn btn-md btn-primary">New Request</button></a>
+    <table class="table table-striped text-left">
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="(rKey, request) in requests">
+        <td>{{request.start | date:"h:mm a"}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.description}}</td>
+      </tr>
+    </table>
+
+    </div>
+  </div>
+</div>

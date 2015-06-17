@@ -14,14 +14,22 @@ User.find({}).remove(function() {
     name: 'Test User',
     email: 'test@test.com',
     password: 'test',
-    hours: 0
+    traits: {
+      industry:{},
+      service:{},
+      hours: 10
+    }
   }, {
     provider: 'local',
     role: 'admin',
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin',
-    hours: 0
+    traits: {
+      industry:{},
+      service:{},
+      hours: 10
+    }
   }, function() {
       console.log('finished populating users');
     }

@@ -5,7 +5,7 @@ exports.setup = function (User, config) {
   passport.use(new LinkedInStrategy({
     clientID: process.env.LINKEDIN_KEY,
     clientSecret: process.env.LINKEDIN_SECRET,
-    callbackURL: "http://localhost:9000/auth/linkedin/callback",
+    callbackURL: "/auth/linkedin/callback",
     scope: ['r_emailaddress', 'r_basicprofile'],
   }, function(accessToken, refreshToken, profile, done) {
     console.log(profile);
@@ -21,7 +21,11 @@ exports.setup = function (User, config) {
           provider: 'linkedin',
           linkedin: profile._json,
           title: profile._json.headline,
-          hours: 0
+          traits:{
+            industry: {},
+            service:{},
+            hours: 0
+          }
         });
         newUser.save(function(err, user) {
           //if (err) return validationError(user, err);

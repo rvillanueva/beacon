@@ -11,8 +11,8 @@ angular.module('heroesApp')
       'link': '/me'
     },
     {
-      'title': 'Make Request',
-      'link': '/request'
+      'title': 'Requests',
+      'link': '/requests'
     }];
 
     $scope.isCollapsed = true;
