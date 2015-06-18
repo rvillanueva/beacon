@@ -1,0 +1,63 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+    <h3 class="centered">Mission Details</h3>
+    <br>
+    <form class="form" name="form" ng-submit="register(request)" novalidate>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Twitter-esque Description</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="request.description">
+          {{request.description.length}}/150 chars
+        </div>
+        &nbsp;
+      </div>
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Hours Needed Today</label>
+        <div class="col-lg-9">
+          <select class="form-control" id="select" ng-model="request.traits.hours">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+        &nbsp;
+      </div>
+      &nbsp;
+
+      <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Industry</label>
+        <div class="col-lg-9">
+           <select class="form-control" id="select" ng-model="request.traits.industry">
+             <option value="">Cross-Industry</option>
+             <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+           </select>
+        </div>
+        &nbsp;
+       </div>
+       <div class="form-group">
+         <label for="select" class="col-lg-3 control-label">Service Area</label>
+         <div class="col-lg-9">
+            <select class="form-control" id="select" ng-model="request.traits.service">
+              <option value="">Cross Service Area</option>
+              <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+            </select>
+         </div>
+         &nbsp;
+        </div>
+        <br>
+        <div class="centered">
+          <button class="btn btn-lg btn-primary" ng-click="makeRequest()">Activate the Bat Signal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

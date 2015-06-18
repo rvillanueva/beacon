@@ -8,7 +8,6 @@ exports.setup = function (User, config) {
     callbackURL: "/auth/linkedin/callback",
     scope: ['r_emailaddress', 'r_basicprofile'],
   }, function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
     User.findOne({
       'linkedin.id': profile.id
     }, function(err, user) {

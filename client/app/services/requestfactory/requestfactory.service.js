@@ -7,7 +7,18 @@ angular.module('heroesApp')
 
     var myRequests = function(){
       var deferred = $q.defer();
-      $http.post('/api/requests/me').success(function(data){
+      $http.get('/api/requests/mine/').success(function(data){
+        deferred.resolve(data);
+      }, function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
+    var getRequest = function(id){
+      var deferred = $q.defer();
+      console.log(id)
+      $http.get('/api/requests/' + id).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -29,6 +40,13 @@ angular.module('heroesApp')
       request: function (details) {
         var deferred = $q.defer()
         request(details).then(function(data){
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      getRequest: function (id) {
+        var deferred = $q.defer()
+        getRequest(id).then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;

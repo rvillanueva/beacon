@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('RequestCtrl', function ($scope, requestFactory) {
-    $scope.message = 'Hello';
+  .controller('RequestCtrl', function ($scope, $routeParams, requestFactory) {
+    var reqId = $routeParams.id
 
-    $scope.makeRequest = function(){
-      requestFactory.request($scope.request).then(function(data){
+      requestFactory.getRequest(reqId).then(function(data){
         console.log(data)
+        $scope.request = data;
       })
-    }
   });

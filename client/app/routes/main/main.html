@@ -8,7 +8,7 @@
           <img src="{{user.linkedin.pictureUrl}}" class="profile-pic pull-left">
           <strong>{{user.name}}</strong><br>
           {{user.title}}<br>
-          Available <strong>{{user.hours}}</strong> hours/day this week
+          Available <strong>{{user.traits.hours}}</strong> hours/day this week
         </div>
       </div>
     </div>
@@ -17,9 +17,18 @@
           <button class="centered btn btn-primary btn-md" style="width: 50%">
           <br>
           <span class="glyphicon glyphicon-flash gigantic"></span><br><br>
-            Insta-Help<br>
+            Flash Request<br>
           </button>
         </a>
+        <br><br>
+        <a href="/requests/new">
+          <button class="centered btn btn-primary btn-md disabled" style="width: 50%">
+          <br>
+          <span class="glyphicon glyphicon-star gigantic"></span><br><br>
+            Build a Team<br>
+          </button>
+        </a>
+
     </div>
   </div>
 

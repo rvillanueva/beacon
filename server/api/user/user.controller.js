@@ -16,6 +16,17 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
+  User.find({}, 'name email traits phone title linkedin.pictureUrl linkedin.url', function (err, users) {
+    if(err) return res.send(500, err);
+    res.json(200, users);
+  });
+};
+
+/**
+ * Get list of users
+ * restriction: 'admin'
+ */
+exports.all = function(req, res) {
   User.find({}, '-salt -hashedPassword', function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);

@@ -4,7 +4,6 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var RequestSchema = new Schema({
-  title: String,
   description: String,
   requester: String,
   responder: String,
@@ -19,7 +18,8 @@ var RequestSchema = new Schema({
     submitted: Date,
     responded: Date,
     completed: Date
-  }
+  },
+  requested: Array
 });
 
 module.exports = mongoose.model('Request', RequestSchema);

@@ -3,18 +3,19 @@
   <div class="row">
     <div class="col-md-12">
       <a href="/requests/new"><button class="btn btn-md btn-primary">New Request</button></a>
+      <br><br>
     <table class="table table-striped text-left">
       <thead>
         <tr>
           <th>Request</th>
-          <th>Description</th>
+          <th>Submitted</th>
           <th>Status</th>
         </tr>
       </thead>
       <tr ng-repeat="(rKey, request) in requests">
-        <td>{{request.start | date:"h:mm a"}}</td>
-        <td>{{item.title}}</td>
-        <td>{{item.description}}</td>
+        <td><a href="/view/{{request._id}}">{{request.description | date:"h:mm a"}}</a></td>
+        <td>{{request.times.submitted | date:'short'}}</td>
+        <td>{{request.status}}</td>
       </tr>
     </table>
 
