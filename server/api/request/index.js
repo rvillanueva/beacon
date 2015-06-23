@@ -11,5 +11,8 @@ router.get('/', auth.isAuthenticated(), controller.index);
 router.get('/mine', auth.isAuthenticated(), controller.myIndex);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/new', auth.isAuthenticated(), controller.request);
+router.post('/accept/:id', auth.isAuthenticated(), controller.accept);
+router.post('/cancel/:id', auth.isAuthenticated(), controller.cancel);
+
 
 module.exports = router;

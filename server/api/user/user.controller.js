@@ -27,7 +27,7 @@ exports.index = function(req, res) {
  * restriction: 'admin'
  */
 exports.all = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  User.find({}, '-salt -hashedPassword -verification', function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
@@ -39,7 +39,7 @@ exports.all = function(req, res) {
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
-  newUser.role = 'unverified';
+  newUser.role = 'user';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
@@ -102,6 +102,14 @@ exports.me = function(req, res, next) {
   }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
     if (err) return next(err);
     if (!user) return res.json(401);
+    if (user.verification){
+      if (user.verification.phone){
+        delete user.verification.phone.code
+      }
+      if (user.verification.email){
+        delete user.verification.email.code
+      }
+    }
     res.json(user);
   });
 };
@@ -113,7 +121,7 @@ exports.updateProfile = function(req, res, next) {
   var userId = req.user._id;
   User.findOne({
     _id: userId
-  }, '-salt -hashedPassword', function(err, user) {
+  }, '-salt -hashedPassword -verification', function(err, user) {
     if (err) return next(err);
     if (!user) {
       return res.json(401);
@@ -150,8 +158,8 @@ exports.verifyPhone = function(req, res) {
       }, function(err, responseData) {
 
           if (!err) { // "err" is an error received during the request, if any
-              console.log(responseData.from); // outputs "+14506667788"
-              console.log(responseData.body); // outputs "word to your mother."
+              console.log(responseData.from);
+              console.log(responseData.body);
 
           }
       });

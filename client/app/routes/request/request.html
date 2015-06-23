@@ -41,9 +41,9 @@
         </div>
         <br>
         <div class="centered">
-          <button class="btn btn-lg btn-primary" ng-click="">Accept</button>
-          <button class="btn btn-lg btn-warning" ng-click="">Decline</button>
-          <button class="btn btn-lg btn-warning" ng-click="">Abort Mission</button>
+          <button class="btn btn-lg btn-primary" ng-if="responder && !owner" ng-click="accept()">Accept</button>
+          <button class="btn btn-lg btn-warning" ng-if="responder && !owner" ng-click="decline()">Decline</button>
+          <button class="btn btn-lg btn-warning" ng-if="owner" ng-click="abort()">Abort Mission</button>
         </div>
     </div>
   </div>

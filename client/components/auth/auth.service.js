@@ -136,6 +136,16 @@ angular.module('heroesApp')
         return currentUser.role === 'admin';
       },
 
+
+      /**
+       * Check if a user is verified
+       *
+       * @return {Boolean}
+       */
+      isVerified: function() {
+        return currentUser.role !== 'unverified';
+      },
+
       /**
        * Get auth token
        */

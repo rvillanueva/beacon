@@ -1,24 +1,58 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<br>
 <div class="container">
   <div class="row">
-    <div class="col-md-offset-3 col-md-6" ng-hide="sent">
-      <br><br>
-      <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Mobile Phone #</label>
+    <div class="col-md-offset-3 col-md-6">
+      Almost there! Please verify your mobile number and your IBM email below and you'll be set to go.
+      <br>
+      <br>
+      <div class="form-group" ng-hide="sent.email">
+        <label for="select" class="col-lg-3 control-label">IBM Email</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="verification.phone" maxchars="70">
+          <input class="form-control" id="select" ng-model="verification.email" maxchars="70">
           <br>
-          <button class='btn btn-md btn-primary' ng-click="verify()">Send Instructions</button>
+          <button class='btn btn-md btn-primary' ng-click="sendEmail()">Send Email Verification</button>
         </div>
         &nbsp;
+      </div>
+      <div ng-show="sent.email">
+        <br>
+        <br> Instructions have been sent to {{verification.email}}!
+        <br>
+        <p class="text-muted">Wrong email? <a href="#" ng-click="new('email')">Enter new email.</a></p>
+        <p class="text-muted">Didn't receive it? <a href="#" ng-click="sendEmail()">Resend.</a></p>
+      </div>
+      <br>
+      <br>
+      <div class="form-group" ng-hide="sent.phone">
+        <label for="select" class="col-lg-3 control-label">Mobile Phone #</label>
+        <div class="col-lg-9">
+          Country Code: +1&nbsp;
+          <input class="form-control" id="select" ng-model="verification.phone" maxchars="70">
+          <br>
+          <button class='btn btn-md btn-primary' ng-click="sendPhone()">Send SMS Verification</button>
+        </div>
+        &nbsp;
+      </div>
+      <div ng-show="sent.phone">
+        <br>
+        <br>Your verification code has been sent to {{verification.phone}}!
+        <div class="form-group">
+          <label for="select" class="col-lg-3 control-label">Verification Code</label>
+          <div class="col-lg-9">
+            <input class="form-control" id="select" ng-model="phoneCode" maxchars="70">
+            <br>
+            <button class='btn btn-md btn-primary' ng-click="verifyPhone()">Enter</button>
+          </div>
+          &nbsp;
+        </div>
 
+        <br>
+        <p class="text-muted">Wrong number? <a href="#" ng-click="new('phone')">Enter new phone number.</a></p>
+        <p class="text-muted">Didn't receive it? <a href="#" ng-click="sendPhone()">Resend.</a></p>
       </div>
     </div>
-    <div class="col-md-offset-3 col-md-6" ng-show="sent">
-      <br><br>
-      Instructions have been sent to {{verification.phone}}!<br>
-      <p class="text-muted">Wrong number? <a href="#" ng-click="retry()">Try again.</a></p>
-      <p class="text-muted">Didn't receive it? <a href="#" ng-click="resend()">Resend.</a></p>
+    <div class="col-md-offset-3 col-md-6" ng-show="sentPhone">
     </div>
   </div>
 </div>

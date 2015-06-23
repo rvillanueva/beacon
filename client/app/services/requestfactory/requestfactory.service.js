@@ -35,11 +35,29 @@ angular.module('heroesApp')
       })
       return deferred.promise;
     }
+
+    var accept = function(id){
+      var deferred = $q.defer();
+      $http.post('/api/requests/accept/' + id).success(function(data){
+        deferred.resolve(data);
+      }, function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
     // Public API here
     return {
       request: function (details) {
         var deferred = $q.defer()
         request(details).then(function(data){
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      accept: function (details) {
+        var deferred = $q.defer()
+        accept(details).then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;

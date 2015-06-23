@@ -17,10 +17,23 @@ var UserSchema = new Schema({
   provider: String,
   salt: String,
   phone: String,
+  pictureUrl: String,
   verified: Boolean,
   verification: {
-    phone: String,
-    email: String
+    phone: {
+      number: String
+      , verified: Boolean
+      , code: Number
+    }
+    , email: {
+      verified: Boolean
+      , address: String
+      , code: {
+        type: String
+        , unique: true
+        , sparse: true
+      }
+    }
   },
   lastLogin: Date,
   ready: Boolean,

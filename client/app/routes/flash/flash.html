@@ -2,13 +2,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-3 col-md-6">
-    <h3 class="centered">Mission Details</h3>
+    <h3 class="centered">Flash Request Details</h3>
     <br>
     <form class="form" name="form" ng-submit="register(request)" novalidate>
       <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Twitter-esque Description</label>
+        <label for="select" class="col-lg-3 control-label">Short Description</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="request.description">
+          <input class="form-control" id="select" ng-model="request.description" maxlength="150">
           {{request.description.length}}/150 chars
         </div>
         &nbsp;
@@ -55,7 +55,7 @@
         </div>
         <br>
         <div class="centered">
-          <button class="btn btn-lg btn-primary" ng-click="makeRequest()">Activate the Bat Signal</button>
+          <button class="btn btn-lg btn-primary" ng-click="makeRequest()">Activate</button>
         </div>
       </form>
     </div>

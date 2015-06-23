@@ -14,12 +14,14 @@ exports.setup = function (User, config) {
       if (err) return done(err);
 
       if (!user) {
+
         var newUser = new User({
           name: profile.displayName,
           role: 'user',
           provider: 'linkedin',
           linkedin: profile._json,
           title: profile._json.headline,
+          pictureUrl: profile.pictureUrl,
           traits:{
             industry: {},
             service:{},
@@ -31,9 +33,11 @@ exports.setup = function (User, config) {
           //var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
           //res.json({ token: token });
           if (err) return done(err);
-          return done(err, user);
+          return done(null, user);
         });
       } else {
+        user.pictureUrl = profile.pictureUrl;
+        user.save();
         return done(null, user);
       }
     });

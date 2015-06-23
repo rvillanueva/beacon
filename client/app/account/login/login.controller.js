@@ -13,7 +13,8 @@ angular.module('heroesApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
+        .then( function(data) {
+          console.log(data)
           // Logged in, redirect to home
           $location.path('/');
         })

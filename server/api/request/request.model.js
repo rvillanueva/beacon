@@ -7,7 +7,12 @@ var RequestSchema = new Schema({
   description: String,
   requester: String,
   responder: String,
+  searching: Boolean,
   status: String,
+  shortId: {
+    type: String,
+    unique: true
+  },
   traits: {
     hours: Number,
     industry: String,

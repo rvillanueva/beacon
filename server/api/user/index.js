@@ -11,10 +11,9 @@ router.get('/', auth.hasRole('user'), controller.index);
 router.get('/all', auth.hasRole('admin'), controller.all);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
-router.patch('/me', auth.isAuthenticated(), controller.updateProfile);
+router.patch('/me', auth.hasRole('user'), controller.updateProfile);
 //router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/:id', auth.hasRole('user'), controller.show);
 router.post('/', controller.create);
-router.post('/verify/phone', auth.isAuthenticated(), controller.verifyPhone);
 
 module.exports = router;

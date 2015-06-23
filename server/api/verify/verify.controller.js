@@ -17,64 +17,131 @@ var mailgun = require('mailgun-js')({
   apiKey: process.env.MAILGUN_SECRET,
   domain: process.env.MAILGUN_URL
 });
+var randomstring = require("randomstring");
 
-// Send verification messages
-exports.verify = function(req, res) {
-  var smsCode = '741';
-  var sendSms = function(){
-    twilio.sendMessage({
 
-        to: req.user.phone, // Any number Twilio can deliver to
-        from: process.env.TWILIO_NUMBER, // A number you bought from Twilio and can use for outbound communication
-        body: 'Your verification code is ' + smsCode // body of the SMS message
+// Send email verification
+exports.email = function(req, res) {
 
-    }, function(err, responseData) {
-        if (err) {
-          console.log(err)
-          res.send(403, err)
-        }
-        res.send(204)
-    });
+  var emailCode;
+  var generateCode = function() {
+    emailCode = randomstring.generate(10);
+    User.find({
+      'verification.email.code': emailCode
+    }, '-name', function(err, users) {
+      if (users.length > 0) {
+        generateCode();
+      }
+    })
   }
-  var sendEmail = function(email, code){
-    var verifyUrl = process.env.DOMAIN + '/verify/email/' + 'code'
+  generateCode();
+
+  User.findById(req.user._id, function(err, user) {
+    if (err) return done(err);
+
+    if (!user) {
+      return res.send(404)
+    }
+    user.verification.email.code = emailCode;
+    user.save();
+    var verifyUrl = process.env.DOMAIN + '/verify/email/' + emailCode;
     var notice = {
-      to: email,
-      from: 'IBM Heroes HQ <donotreply@heroes.ibmthinklab.com>',
-      subject: 'IBM Heroes Email Verification',
-      html: 'Welcome to IBM Heroes!<br><br>To verify your IBM email, please <a href=\"' + verifyUrl + '\">click here</a> or copy and paste this link into your browser: <br><br><a href=\"' + verifyUrl + '\">' + verifyUrl + '</a><br><br>We\'re excited to work with you!<br><br>Cheers,<br>The IBM Heroes Team'
+      to: req.body.email,
+      from: 'IBM Beacon HQ <donotreply@heroes.ibmthinklab.com>',
+      subject: 'IBM Beacon Email Verification',
+      html: 'Welcome to IBM Beacon!<br><br>To verify your IBM email, please <a href=\"' + verifyUrl + '\">click here</a> or copy and paste this link into your browser: <br><br><a href=\"' + verifyUrl + '\">' + verifyUrl + '</a><br><br>We\'re excited to work with you!<br><br>Cheers,<br>The IBM Beacon Team'
     };
 
     mailgun.messages().send(notice, function(error, body) {
       if (error) {
         console.log(error)
       }
-      console.log(body);
+      return res.send(200)
     });
-  }
-if(req.body.type == 'mobile'){
-  sendSms();
-} else if (req.body.type == 'email'){
-  sendEmail();
-} else  {
-  sendSms();
-  sendEmail();
-}
+  })
+
 };
+
+// Send phone verification
+exports.phone = function(req, res) {
+
+
+  var smsCode = Math.floor(Math.random() * 1000000);
+  var phone = req.body.country + req.body.number;
+  User.findById(req.user._id, function(err, user) {
+    if (err) return done(err);
+
+    if (!user) {
+      return res.send(404)
+    }
+    user.verification.phone.code = smsCode;
+    user.verification.phone.number = phone;
+    user.save();
+    twilio.sendMessage({
+
+      to: phone, // Any number Twilio can deliver to
+      from: process.env.TWILIO_NUMBER, // A number you bought from Twilio and can use for outbound communication
+      body: 'Your verification code is ' + smsCode // body of the SMS message
+
+    }, function(err, responseData) {
+      if (err) {
+        console.log(err)
+        return res.send(400, err)
+      }
+      return res.send(200)
+    });
+
+  })
+
+}
 
 // Verify sms
 exports.verifyMobile = function(req, res) {
-  Request.find(function (err, requests) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, requests);
+  User.findById(req.user._id, '-salt -hashedPassword', function(err, user) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!user) {
+      return res.send(404)
+    }
+    console.log(user)
+    console.log(req.params.id)
+    console.log(user.verification.phone.code)
+    if (user.verification.phone.code == req.params.code) {
+      user.verification.phone.verified = true;
+      if (user.verification.phone.verified && user.verification.email.verified) {
+        user.role = 'user';
+        delete user.verification;
+      }
+      user.save();
+      delete user.verification.phone.code;
+      delete user.verification.email.code;
+      return res.send(200, user);
+    } else {
+      return res.send(404)
+    }
   });
+
 };
 
 // Verify email
 exports.verifyEmail = function(req, res) {
-  Request.find(function (err, requests) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, requests);
+  User.findOne({
+    'verification.email.code': req.params.code
+  }, '-salt -hashedPassword', function(err, user) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!user) {
+      return res.send(404)
+    }
+    user.verification.email.verified = true;
+    if (user.verification.phone.verified && user.verification.email.verified) {
+      user.role = 'user';
+      delete user.verification;
+    }
+    user.save();
+    return res.send(200);
   });
 };
 
