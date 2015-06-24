@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tr ng-repeat="(rKey, request) in requests">
-        <td><a href="/requests/view/{{request._id}}">{{request.description | date:"h:mm a"}}</a></td>
+        <td><a href="/request/{{request.shortId}}">{{request.description | date:"h:mm a"}}</a></td>
         <td>{{request.times.submitted | date:'short'}}</td>
         <td>{{request.status}}</td>
       </tr>

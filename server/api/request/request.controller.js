@@ -13,8 +13,11 @@ var _ = require('lodash');
 var Request = require('./request.model');
 var User = require('./../user/user.model');
 var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+var randomstring = require('randomstring');
 
 var notifiedPer = 5;
+var triesPer = 6;
+var minutesDelay = 10;
 
 // Get list of requests
 exports.index = function(req, res) {
@@ -70,6 +73,7 @@ exports.request = function(req, res) {
   }
 
   Request.create(newRequest, function(err, request) {
+    var reqId = request._id;
       if (err) {
         return handleError(res, err);
       }
@@ -92,12 +96,33 @@ exports.request = function(req, res) {
         request.requested = []
       }
       request.searching = true;
-      request.shortId == request._id;
-
+      var shortId;
+      var generateCode = function() {
+        shortId = randomstring.generate(8);
+        Request.find({
+          'shortId': shortId
+        }, '_id', function(err, requests) {
+          if (requests.length > 0) {
+            generateCode();
+          }
+        })
+      }
+      generateCode();
+      request.shortId = shortId;
+      request.save();
+    });
+    Request.findByID(req.params.id, function(err, request) {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!request) {
+        return res.send(404);
+      }
       if (request.searching = true) {
         // return all users
-        User.find({}, 'name email phone traits hours', function(err, foundUsers) {
+        User.find({}, 'name email phone traits hours requested verified', function(err, foundUsers) {
             var users = foundUsers;
+            console.log(users)
             for (var i = 0; i < users.length; i++) {
               // score based on hours needed
               // score based on industry and service area
@@ -126,40 +151,54 @@ exports.request = function(req, res) {
             var failedTries = 0;
 
             // SMS top 5 users and flag them as requested
-            for (var j = tryNum * notifiedPer;
-              (j < notifiedPer + failedTries) && (j < users.length); j++) {
-              if (users[j].phone) {
-                twilio.sendMessage({
-                  to: users[j].phone,
-                  from: process.env.TWILIO_NUMBER,
-                  body: 'A fellow IBMer needs your help! Your mission, if you choose to accept it: ' + req.body.description
-                }, function(err, responseData) {
-                  if (err) {
-                    console.log(err)
+            var ping = function(){
+              for (
+                var j = tryNum * notifiedPer;
+                (j < notifiedPer + failedTries) && (j < users.length);
+                j++
+              ) {
+                if (users[j].phone && !users[j].requested) {
+                  twilio.sendMessage({
+                    to: users[j].phone,
+                    from: process.env.TWILIO_NUMBER,
+                    body: 'A fellow IBMer needs your help! Your mission, if you choose to accept it: ' + req.body.description
+                  }, function(err, responseData) {
+                    if (err) {
+                      console.log(err)
+                    }
+                    twilio.sendMessage({
+                      to: responseData.to,
+                      from: process.env.TWILIO_NUMBER,
+                      body: 'To accept this mission, go to ' + process.env.DOMAIN + '/request/' + request.shortId + ' on an IBM device.'
+                    }, function(err, responseData2) {
+                      if (err) {
+                        console.log(err)
+                      }
+                    });
+                  });
+
+                  var requested = {
+                    time: new Date(),
+                    user: users[j]._id
                   }
-                });
-                twilio.sendMessage({
-                  to: users[j].phone,
-                  from: process.env.TWILIO_NUMBER,
-                  body: 'To accept this mission, go to ' + process.env.DOMAIN + '/request/' + request.shortId + ' on an IBM device.'
-                }, function(err, responseData2) {
-                  if (err) {
-                    console.log(err)
-                  }
-                });
-                var requested = {
-                  time: new Date(),
-                  user: users[j]._id
+                  request.requested.push(requested)
+                  users[j].requested = true;
+                  users[j].save();
+                } else {
+                  failedTries++;
                 }
-                request.requested.push(requested)
-                users[j].requested = true;
-                users[j].save;
-              } else {
-                failedTries++;
+              }
+              if(tryNum < triesPer && j < users.length){
+                tryNum++
+                setTimeout(ping(), minutesDelay*60*1000)
               }
             }
 
+            ping();
+
+
           })
+          console.log(request)
           request.save(function(err) {
             if (err) {
               return handleError(res, err);
@@ -174,7 +213,7 @@ exports.request = function(req, res) {
             return handleError(res, err);
           }
         }
-      });
+      })
       // End of week, SMS requestor and responder asking for rating
 
   };
