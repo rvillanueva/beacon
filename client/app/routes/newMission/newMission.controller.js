@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('FlashCtrl', function ($scope, $location, requestFactory) {
+  .controller('NewMissionCtrl', function ($scope, $location, requestFactory) {
     $scope.request = {
       description: ''
       , traits: {
@@ -12,7 +12,7 @@ angular.module('heroesApp')
     $scope.makeRequest = function(){
       requestFactory.request($scope.request).then(function(data){
         console.log(data)
-        $location.path('/requests/new/success')
+        $location.path('/missions/new/success')
       })
     }
   });

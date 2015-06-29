@@ -11,8 +11,12 @@ angular.module('heroesApp')
       'link': '/me'
     },
     {
-      'title': 'Requests',
-      'link': '/requests'
+      'title': 'Mission Control',
+      'link': '/missions'
+    },
+    {
+      'title': 'Find Mission',
+      'link': '/match/mission'
     }];
 
     $scope.isCollapsed = true;
