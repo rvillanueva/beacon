@@ -9,10 +9,6 @@ var RequestSchema = new Schema({
   responder: String,
   searching: Boolean,
   status: String,
-  shortId: {
-    type: String,
-    unique: true
-  },
   traits: {
     hours: Number,
     industry: String,
@@ -21,10 +17,19 @@ var RequestSchema = new Schema({
   },
   times: {
     submitted: Date,
-    responded: Date,
     completed: Date
   },
-  requested: Array
+  matches: [
+    {
+      user: String,
+      requested: Boolean,
+      matched: Boolean,
+      times: {
+        requested: Date,
+        matched: Date
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model('Request', RequestSchema);

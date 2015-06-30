@@ -1,8 +1,63 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<br>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-    This is the matchMission view.
-    </div>
+    <div class="col-md-8 col-md-offset-2">
+      <md-card class="md-default-theme">
+        <md-card-content class="card-background-image">
+        <div class="pull-right text-large">76%
+        </div>
+        <div class="pull-left">
+          <img class="profile-pic" ng-if="match.pictureUrl" src="{{match.pictureUrl}}">
+        </div>
+        <div>
+          <h3>{{match.name}}</h3>
+          <p>
+            {{match.title}}
+          </p>
+        </div>
+        </md-card-content>
+      </md-card>
+      <md-card class="md-default-theme retailer-background">
+        <md-card-content>
+          <div class="col-md-6">
+            <h4>Highlights</h4>
+            <ul>
+              <li>
+                Can fly
+              </li>
+              <li>
+                Bulletproof
+              </li>
+              <li>
+                Superman
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h4>Details</h4>
+            <ul>
+              <li>
+                Awesome
+              </li>
+              <li>
+                Bulletproof
+              </li>
+              <li>
+                Superman
+              </li>
+            </ul>
+          </div>
+          <br>
+          &nbsp;
+          <div class="row">
+            <div class="col-md-12 centered">
+              <a href=""><button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button"><i class="fa fa-times"></i></button></a>
+              &nbsp;&nbsp;
+              <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button"><i class="fa fa-star"></i></button></a>
+          </div>
+        </md-card-content>
+      </md-card>
   </div>
+</div>
 </div>

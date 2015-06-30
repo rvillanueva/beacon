@@ -23,6 +23,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   font-size: 3em;
 }
 
+.body{
+  overflow:scroll;
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
