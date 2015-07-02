@@ -7,7 +7,7 @@ angular.module('heroesApp')
 
     var myRequests = function(){
       var deferred = $q.defer();
-      $http.get('/api/requests/mine/').success(function(data){
+      $http.get('/api/missions/mine/').success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -18,7 +18,7 @@ angular.module('heroesApp')
     var getRequest = function(id){
       var deferred = $q.defer();
       console.log(id)
-      $http.get('/api/requests/' + id).success(function(data){
+      $http.get('/api/missions/' + id).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -26,9 +26,9 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
-    var request = function(details){
+    var newMission = function(details){
       var deferred = $q.defer();
-      $http.post('/api/requests/new', details).success(function(data){
+      $http.post('/api/missions/new', details).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -38,7 +38,18 @@ angular.module('heroesApp')
 
     var accept = function(id){
       var deferred = $q.defer();
-      $http.post('/api/requests/accept/' + id).success(function(data){
+      $http.post('/api/missions/accept/' + id).success(function(data){
+        deferred.resolve(data);
+      }, function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
+    var findUser = function(id){
+      var deferred = $q.defer();
+      $http.get('/api/missions/user/' + id).success(function(data){
+        console.log(data)
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -48,9 +59,9 @@ angular.module('heroesApp')
 
     // Public API here
     return {
-      request: function (details) {
+      newMission: function (details) {
         var deferred = $q.defer()
-        request(details).then(function(data){
+        newMission(details).then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;
@@ -58,6 +69,14 @@ angular.module('heroesApp')
       accept: function (details) {
         var deferred = $q.defer()
         accept(details).then(function(data){
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      findUser: function (id) {
+        console.log('getting')
+        var deferred = $q.defer()
+        findUser(id).then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;

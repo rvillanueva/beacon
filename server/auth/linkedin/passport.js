@@ -21,7 +21,7 @@ exports.setup = function (User, config) {
           provider: 'linkedin',
           linkedin: profile._json,
           title: profile._json.headline,
-          pictureUrl: profile.pictureUrl,
+          pictureUrl: profile._json.pictureUrl,
           traits:{
             industry: {},
             service:{},

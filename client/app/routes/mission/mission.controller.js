@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('RequestCtrl', function ($scope, User, $routeParams, requestFactory) {
-    var reqId = $routeParams.id
+  .controller('MissionCtrl', function ($scope, User, $routeParams, requestFactory) {
+    $scope.missionId = $routeParams.id
     var self = User.get();
-    requestFactory.getRequest(reqId).then(function(data){
+    requestFactory.getRequest($scope.missionId).then(function(data){
       console.log(data)
       $scope.request = data;
       if($scope.request.requester == self._id){
@@ -20,7 +20,7 @@ angular.module('heroesApp')
 
     $scope.accept = function(){
       requestFactory.accept(reqId).then(function(){
-        
+
       })
     }
 

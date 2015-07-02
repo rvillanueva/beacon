@@ -9,10 +9,18 @@
     <br>
     <form class="form" name="form" ng-submit="register(request)" novalidate>
       <div class="form-group">
+        <label for="select" class="col-lg-3 control-label">Title</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="select" ng-model="request.title" maxlength="150">
+          {{request.description.length}}/150 chars
+        </div>
+        &nbsp;
+      </div>
+      <div class="form-group">
         <label for="select" class="col-lg-3 control-label">Short Description</label>
         <div class="col-lg-9">
-          <input class="form-control" id="select" ng-model="request.description" maxlength="150">
-          {{request.description.length}}/150 chars
+          <textarea class="form-control" id="select" ng-model="request.description">
+          </textarea>
         </div>
         &nbsp;
       </div>

@@ -1,11 +1,7 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<br>
-<div class="container">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
       <md-card class="md-default-theme">
-        <md-card-content class="card-background-image">
-        <div class="pull-right text-large">76%
+        <md-card-content class="hero-background-image">
+        <div class="pull-right text-large">{{match.score * 100 | number:0}}
         </div>
         <div class="pull-left">
           <img class="profile-pic" ng-if="match.pictureUrl" src="{{match.pictureUrl}}">
@@ -52,12 +48,11 @@
           &nbsp;
           <div class="row">
             <div class="col-md-12 centered">
-              <a href=""><button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button"><i class="fa fa-times"></i></button></a>
+              <a href=""><button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button"><i class="fa fa-times"></i></button></a>
               &nbsp;&nbsp;
               <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button"><i class="fa fa-star"></i></button></a>
           </div>
         </md-card-content>
       </md-card>
   </div>
-</div>
 </div>

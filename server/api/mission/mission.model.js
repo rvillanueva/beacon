@@ -3,33 +3,33 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var RequestSchema = new Schema({
+var MissionSchema = new Schema({
   description: String,
   requester: String,
-  responder: String,
-  searching: Boolean,
+  open: Boolean,
   status: String,
   traits: {
     hours: Number,
+    quantity: Number,
     industry: String,
     service: String,
-    skills: {}
+    skills: {},
+    availableOn: Date
   },
   times: {
     submitted: Date,
     completed: Date
   },
+  responders: Array,
   matches: [
     {
       user: String,
+      accepted: Boolean,
       requested: Boolean,
-      matched: Boolean,
-      times: {
-        requested: Date,
-        matched: Date
-      }
+      submitted: Date,
+      responded: Date
     }
   ]
 });
 
-module.exports = mongoose.model('Request', RequestSchema);
+module.exports = mongoose.model('Mission', MissionSchema);

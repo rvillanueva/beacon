@@ -2,10 +2,9 @@
 
 angular.module('heroesApp')
   .controller('MatchHeroCtrl', function ($scope) {
-    $scope.match = {
-      name: 'Clark Kent',
+    $scope.mission = {
+      title: 'Stop the Joker',
       score: 76,
-      title: 'Experience Designer',
-      pictureUrl: 'https://media.licdn.com/mpr/mprx/0_rVO-LKrBUEXpGFUqYy0DL-lsR7rlh3oq-ZoSL1KLXuXT05jNypaOwPXIzFKm_6I4AJp2oNaSF7uF'
+      description: 'You must stop the Joker.'
     };
   });

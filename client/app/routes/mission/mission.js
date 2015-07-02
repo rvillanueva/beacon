@@ -3,7 +3,7 @@
 angular.module('heroesApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/mission/:id', {
+      .when('/missions/view/:id', {
         templateUrl: 'app/routes/mission/mission.html',
         controller: 'MissionCtrl'
       });

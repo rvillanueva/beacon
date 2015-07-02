@@ -4,21 +4,21 @@
 
 'use strict';
 
-var sms = require('./sms.model');
+var thing = require('./mission.model');
 
 exports.register = function(socket) {
-  sms.schema.post('save', function (doc) {
+  request.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  sms.schema.post('remove', function (doc) {
+  request.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('sms:save', doc);
+  socket.emit('request:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('sms:remove', doc);
+  socket.emit('request:remove', doc);
 }

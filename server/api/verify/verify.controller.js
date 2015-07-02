@@ -10,7 +10,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Request = require('./../request/request.model');
+var Mission = require('./../mission/mission.model');
 var User = require('./../user/user.model');
 var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 var mailgun = require('mailgun-js')({

@@ -10,9 +10,9 @@ angular.module('heroesApp')
     }
 
     $scope.makeRequest = function(){
-      requestFactory.request($scope.request).then(function(data){
-        console.log(data)
-        $location.path('/missions/new/success')
+      requestFactory.newMission($scope.request).then(function(mission){
+        console.log(mission)
+        $location.path('/missions/view/' + mission._id)
       })
     }
   });

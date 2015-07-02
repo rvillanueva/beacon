@@ -43,7 +43,8 @@ var UserSchema = new Schema({
     industry: {},
     service: {},
     hours: Number,
-    skills: {}
+    skills: {},
+    availableOn: Date
   }
 });
 

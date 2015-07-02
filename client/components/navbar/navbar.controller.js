@@ -16,7 +16,7 @@ angular.module('heroesApp')
     },
     {
       'title': 'Find Mission',
-      'link': '/match/mission'
+      'link': '/match'
     }];
 
     $scope.isCollapsed = true;
