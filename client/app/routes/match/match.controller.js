@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MatchHeroCtrl', function ($scope) {
+  .controller('MatchToMissionsCtrl', function ($scope) {
     $scope.mission = {
       title: 'Stop the Joker',
       score: 76,

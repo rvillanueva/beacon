@@ -36,7 +36,7 @@ exports.setup = function (User, config) {
           return done(null, user);
         });
       } else {
-        user.pictureUrl = profile.pictureUrl;
+        user.pictureUrl = profile._json.pictureUrl;
         user.save();
         return done(null, user);
       }

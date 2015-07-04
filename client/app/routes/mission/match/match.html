@@ -4,7 +4,7 @@
   <div class="row" ng-show="!noMatches">
       <md-card class="md-default-theme">
         <md-card-content class="hero-background-image">
-        <div class="pull-right text-large">{{match.score * 100 | number:0}}
+        <div class="pull-right text-large">{{match.score | number:0}}
         </div>
         <div class="pull-left">
           <img class="profile-pic" ng-if="match.pictureUrl" src="{{match.pictureUrl}}">

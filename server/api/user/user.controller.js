@@ -16,7 +16,7 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, 'name email traits phone title linkedin.pictureUrl linkedin.url', function (err, users) {
+  User.find({}, 'name email traits phone title pictureUrl linkedin.url', function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });

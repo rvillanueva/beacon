@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MatchMissionCtrl', function ($scope, requestFactory) {
+  .controller('MatchToHeroesCtrl', function ($scope, requestFactory) {
 
 
     requestFactory.matchUser($scope.missionId).then(function(match){

@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var MissionSchema = new Schema({
+  title: String,
   description: String,
   requester: String,
   open: Boolean,

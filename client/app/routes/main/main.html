@@ -5,7 +5,7 @@
       <h2 class="centered">Available Heroes</h2>
       <div class="panel panel-default" ng-repeat="user in users">
         <div class="panel-body">
-          <img src="{{user.pictureUrl}}" class="profile-pic pull-left">
+          <img ng-src="{{user.pictureUrl}}" class="profile-pic pull-left">
           <strong>{{user.name}}</strong><br>
           {{user.title}}<br>
           Available <strong>{{user.traits.hours}}</strong> hours/day this week
@@ -21,7 +21,7 @@
           </button>
         </a>
         <br><br>
-        <a href="/match/missions">
+        <a href="/match/">
           <button class="centered btn btn-primary btn-md" style="width: 50%">
           <br>
           <span class="glyphicon glyphicon-flash gigantic"></span><br><br>
