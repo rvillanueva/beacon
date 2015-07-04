@@ -28,6 +28,19 @@ exports.index = function(req, res) {
   });
 };
 
+// Get list of my requests
+exports.myIndex = function(req, res) {
+  Mission.find({
+    requester: req.user._id
+  }, function(err, missions) {
+    if (err) {
+      return handleError(res, err);
+    }
+    return res.json(200, missions);
+  });
+};
+
+
 // Get request by id
 exports.show = function(req, res) {
   Mission.findById(req.params.id, function(err, mission) {
@@ -41,19 +54,6 @@ exports.show = function(req, res) {
 
   });
 };
-
-// Get list of my requests
-exports.myIndex = function(req, res) {
-  Mission.find({
-    requester: req.user._id
-  }, function(err, missions) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.json(200, missions);
-  });
-};
-
 
 
 // Create a request
@@ -82,66 +82,8 @@ exports.create = function(req, res) {
 
 };
 
-// User responds to a request
-exports.respond = function(req, res) {
-  var accepted = req.body.accepted;
-  Mission.findByID(req.params.id, function(err, mission) {
-    if (err) {
-      return handleError(res, err);
-    }
-    if (!mission) {
-      return res.send(404);
-    }
-    var tagged = false;
-    for (var i = 0; i < mission.matches.length; i++) {
-      if (mission.matches[i].user == req.user._id) {
-        if (mission.matches[i].accepted == accepted) {
-          return res.send(401, 'User has already responded to this request')
-        } else {
-          mission.matches[i].accepted = accepted;
-          mission.matches[i].responded = new Date();
-          tagged = true;
-        }
-      }
-      if (!tagged) {
-        var pushed = {
-          user: req.user._id,
-          responded: new Date(),
-          accepted: accepted
-        }
-        mission.matches.push(pushed)
-      }
-    }
-  })
-}
-
-// Requester cancels mission
-exports.cancel = function(req, res) {
-  Mission.findByID(req.params.id, function(err, mission) {
-    if (err) {
-      return handleError(res, err);
-    }
-    if (!mission) {
-      return res.send(404);
-    }
-
-    var isOwner;
-    if (req.user._id == mission.requester) {
-      isOwner = true;
-    }
-    if (isOwner) {
-      mission.status = 'Canceled'
-      mission.open = false;
-      mission.save()
-      return res.json(200, request);
-    } else {
-      return res.json(401)
-    }
-  });
-};
-
 // Show relevant user who the mission hasn't yet seen
-exports.findUser = function(req, res) {
+exports.matchUser = function(req, res) {
   Mission.findById(req.params.id, function(err, mission) {
     if (err) {
       return handleError(res, err);
@@ -181,6 +123,7 @@ exports.findUser = function(req, res) {
         if(!users[i].traits.service){
           users[i].traits.service = {}
         }
+        // In case specific industry or service are undefined
         var industryScore = users[i].traits.industry[mission.traits.industry];
         industryScore = industryScore || 0;
         var serviceScore = users[i].traits.service[mission.traits.service];
@@ -201,52 +144,48 @@ exports.findUser = function(req, res) {
         return 0;
       });
       var found = false;
-      console.log(users)
-      for (var j = 0; !found; j++) {
-        var user = users[j];
+      for (var j = 0; !found && j < 3; j++) {
+        if (users[j].traits){
+          users[j].traits = {}
+        }
         var alreadyMatched = false;
         if(!mission.matches){
           mission.matches = []
         }
-        for(var k = 0; k < mission.length; k++){
-          alreadyMatched = true;
+        for(var k = 0; k < mission.matches.length; k++){
+          if(users[j]._id == mission.matches[k].user){
+            alreadyMatched = true;
+          }
         }
-        if(!alreadyMatched || (user.traits.availableOn > mission.traits.availableOn && user.traits.availableOn)){
-          matchedUser = user;
-          console.log(matchedUser)
+        if(!alreadyMatched){
+          //&& (users[j].traits.availableOn < mission.traits.availableOn && users[j].traits.availableOn)
+          matchedUser = users[j];
           found = true;
           return res.json(200, matchedUser);
-        } else {
-          j++
         }
+      }
+      if(!matchedUser){
+        return res.send(404, 'No users matched.')
       }
     });
   })
 };
 
-// User accepts a request
-exports.accept = function(req, res) {
-  User.find({
-    requester: req.user._id
-  }, function(err, missions) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.json(200, missions);
-  });
-};
-
-
-
 // Request a user
-exports.request = function(req, res) {
+exports.tagUser = function(req, res) {
 
-  var missionId = req.body.missionId;
-  var userId = req.body.userId;
+  if(!req.body.mission || !req.body.user){
+    return res.send(400)
+  }
 
-  var missionUrl = process.env.DOMAIN + '/mission/' + missionId
+  console.log(req.body)
 
-  Mission.findByID(req.params.id, function(err, mission) {
+  var missionId = req.body.mission;
+  var userId = req.body.user;
+  var requested = req.body.requested;
+  var missionUrl = process.env.DOMAIN + '/mission/' + missionId;
+
+  Mission.findById(missionId, function(err, mission) {
     if (err) {
       return handleError(res, err);
     }
@@ -255,17 +194,23 @@ exports.request = function(req, res) {
     }
 
     // Add user to requested
-    var requested = false;
+    var tagged = false;
     for (var i = 0; i < mission.matches.length; i++) {
       if (mission.matches[i].user == userId) {
-        requested = true;
+        tagged = true;
       }
     }
     var notice;
     User.findById(userId, function(err, user) {
 
-      if (!requested) {
-        mission.matches.push(user);
+      if (!tagged) {
+          var pushed = {
+            user: userId
+            , requested: requested
+          }
+          mission.matches.push(pushed)
+          mission.save();
+          console.log(mission)
         // Notify user
         notice = {
           to: user.email,
@@ -294,25 +239,76 @@ exports.request = function(req, res) {
 
 };
 
-// Match a request
-exports.match = function(req, res) {
 
-  // SMS requestor that it's been received
-  var notice = {
-    to: req.body.email,
-    from: 'IBM Beacon HQ <donotreply@heroes.ibmthinklab.com>',
-    subject: 'IBM Beacon Email Verification',
-    html: 'Welcome to IBM Beacon!<br><br>To verify your IBM email, please <a href=\"' + verifyUrl + '\">click here</a> or copy and paste this link into your browser: <br><br><a href=\"' + verifyUrl + '\">' + verifyUrl + '</a><br><br>We\'re excited to work with you!<br><br>Cheers,<br>The IBM Beacon Team'
-  };
 
-  mailgun.messages().send(notice, function(error, body) {
-    if (error) {
-      console.log(error)
+// User responds to a request
+exports.tagMission = function(req, res) {
+  var accepted = req.body.accepted;
+  Mission.findById(req.params.id, function(err, mission) {
+    if (err) {
+      return handleError(res, err);
     }
-    return res.send(200)
-  });
+    if (!mission) {
+      return res.send(404);
+    }
+    var tagged = false;
+    for (var i = 0; i < mission.matches.length; i++) {
+      if (mission.matches[i].user == req.user._id) {
+        if (mission.matches[i].accepted == accepted) {
+          return res.send(401, 'User has already responded to this request')
+        } else {
+          mission.matches[i].accepted = accepted;
+          mission.matches[i].responded = new Date();
+          tagged = true;
+        }
+      }
+      if (!tagged) {
+        var pushed = {
+          user: req.user._id,
+          responded: new Date(),
+          accepted: accepted
+        }
+        mission.matches.push(pushed)
+      }
+    }
+  })
+}
+
+
+// Show a mission that user has not already tagged
+exports.matchMission = function(req, res) {
 };
 
+
+// Requester chooses a user
+exports.accept = function(req, res) {
+};
+
+
+// Requester cancels mission
+exports.abort = function(req, res) {
+  Mission.findById(req.params.id, function(err, mission) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!mission) {
+      return res.send(404);
+    }
+
+    var isOwner;
+    if (req.user._id == mission.requester) {
+      isOwner = true;
+    }
+    if (isOwner) {
+      mission.status = 'Canceled'
+      mission.open = false;
+      mission.save()
+      return res.json(200, request);
+    } else {
+      return res.json(401)
+    }
+  });
+};
 
 
 

@@ -46,10 +46,19 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
-    var findUser = function(id){
+    var matchUser = function(id){
       var deferred = $q.defer();
-      $http.get('/api/missions/user/' + id).success(function(data){
-        console.log(data)
+      $http.get('/api/missions/find/' + id).success(function(data){
+        deferred.resolve(data);
+      }).error(function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
+    var tagUser = function(params){
+      var deferred = $q.defer();
+      $http.post('/api/missions/tag/', params).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -73,10 +82,19 @@ angular.module('heroesApp')
         })
         return deferred.promise;
       },
-      findUser: function (id) {
-        console.log('getting')
+      matchUser: function (id) {
         var deferred = $q.defer()
-        findUser(id).then(function(data){
+        matchUser(id).then(function(data){
+          deferred.resolve(data);
+        }).catch(function(err) {
+          console.log(err)
+          deferred.reject(err)
+        })
+        return deferred.promise;
+      },
+      tagUser: function (params) {
+        var deferred = $q.defer()
+        tagUser(params).then(function(data){
           deferred.resolve(data);
         })
         return deferred.promise;

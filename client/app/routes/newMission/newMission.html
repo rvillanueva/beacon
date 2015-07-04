@@ -27,17 +27,8 @@
       <div class="form-group">
         <label for="select" class="col-lg-3 control-label">Hours Needed Today</label>
         <div class="col-lg-9">
-          <select class="form-control" id="select" ng-model="request.traits.hours">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+          <select class="form-control" id="select" ng-model="request.traits.hours" convert-to-number>
+            <option value="{{option}}" ng-repeat="option in hoursOptions">{{option}}</option>
           </select>
         </div>
         &nbsp;
@@ -49,7 +40,7 @@
         <div class="col-lg-9">
            <select class="form-control" id="select" ng-model="request.traits.industry">
              <option value="">Cross-Industry</option>
-             <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+             <option ng-repeat="(iKey, industry) in industries" value="{{iKey}}">{{industry.name}}</option>
            </select>
         </div>
         &nbsp;
@@ -59,7 +50,7 @@
          <div class="col-lg-9">
             <select class="form-control" id="select" ng-model="request.traits.service">
               <option value="">Cross Service Area</option>
-              <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
+              <option ng-repeat="(sKey, service) in services" value="{{sKey}}">{{service.name}}</option>
             </select>
          </div>
          &nbsp;

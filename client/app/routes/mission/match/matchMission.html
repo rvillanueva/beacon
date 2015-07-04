@@ -1,4 +1,7 @@
-  <div class="row">
+<div class="row" ng-show="noMatches">
+  Uh oh, looks like we couldn't find any more heroes that matched your needs. Come back later--someone new may pop up!
+</div>
+  <div class="row" ng-show="!noMatches">
       <md-card class="md-default-theme">
         <md-card-content class="hero-background-image">
         <div class="pull-right text-large">{{match.score * 100 | number:0}}
@@ -48,9 +51,9 @@
           &nbsp;
           <div class="row">
             <div class="col-md-12 centered">
-              <a href=""><button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button"><i class="fa fa-times"></i></button></a>
+              <button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button>
               &nbsp;&nbsp;
-              <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button"><i class="fa fa-star"></i></button></a>
+              <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button></a>
           </div>
         </md-card-content>
       </md-card>
