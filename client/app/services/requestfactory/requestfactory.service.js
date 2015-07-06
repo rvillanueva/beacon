@@ -66,6 +66,27 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
+    var matchMission = function(id){
+      var deferred = $q.defer();
+      $http.get('/api/missions/users/find/').success(function(data){
+        deferred.resolve(data);
+      }).error(function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
+    var tagMission = function(params){
+      var deferred = $q.defer();
+      $http.post('/api/missions/users/tag/', params).success(function(data){
+        console.log(data)
+        deferred.resolve(data);
+      }, function(err){
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
     // Public API here
     return {
       newMission: function (details) {
@@ -96,6 +117,26 @@ angular.module('heroesApp')
         var deferred = $q.defer()
         tagUser(params).then(function(data){
           deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      matchMission: function (id) {
+        var deferred = $q.defer()
+        matchMission(id).then(function(data){
+          deferred.resolve(data);
+        }).catch(function(err) {
+          console.log(err)
+          deferred.reject(err)
+        })
+        return deferred.promise;
+      },
+      tagMission: function (params) {
+        var deferred = $q.defer()
+        tagMission(params).then(function(data){
+          deferred.resolve(data);
+        }).catch(function(err) {
+          console.log(err)
+          deferred.reject(err)
         })
         return deferred.promise;
       },

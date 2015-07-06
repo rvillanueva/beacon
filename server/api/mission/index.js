@@ -13,8 +13,8 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/new', auth.isAuthenticated(), controller.create); // Create a new mission
 router.get('/find/:id', auth.isAuthenticated(), controller.matchUser); // Mission surfaces a user
 router.post('/tag', auth.isAuthenticated(), controller.tagUser); // Mission tags a user
-router.post('/user/tag', auth.isAuthenticated(), controller.tagMission); // User tags a mission
-router.post('/user/find', auth.isAuthenticated(), controller.matchMission); // User finds a mission
+router.post('/users/tag', auth.isAuthenticated(), controller.tagMission); // User tags a mission
+router.get('/users/find', auth.isAuthenticated(), controller.matchMission); // User finds a mission
 router.post('/accept/:id', auth.isAuthenticated(), controller.accept); // Mission accepts a user
 router.post('/cancel/:id', auth.isAuthenticated(), controller.abort); // Mission aborts
 

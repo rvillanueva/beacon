@@ -17,6 +17,7 @@ var mailgun = require('mailgun-js')({
   apiKey: process.env.MAILGUN_SECRET,
   domain: process.env.MAILGUN_URL
 });
+var Calculate = require('./mission.service');
 
 // Get list of requests
 exports.index = function(req, res) {
@@ -91,9 +92,8 @@ exports.matchUser = function(req, res) {
     if (!mission) {
       return res.send(404);
     }
-    if(mission.requester !== req.user._id){
-      console.log(mission.requester)
-      console.log(req.user._id)
+    if(!(mission.requester == req.user._id)){
+      return res.send(401);
     }
 
     var skipped = 0;
@@ -108,30 +108,7 @@ exports.matchUser = function(req, res) {
         // score based on hours needed
         // score based on industry and service area
         // score based on number of requests tagged
-        if(!mission.traits.hours){
-          mission.traits.hours = 0;
-        }
-        if(!users[i].traits){
-          users[i].traits = {}
-        }
-        if(!users[i].traits.hours){
-          users[i].traits.hours = 0;
-        }
-        if(!users[i].traits.industry){
-          users[i].traits.industry = {}
-        }
-        if(!users[i].traits.service){
-          users[i].traits.service = {}
-        }
-        // In case specific industry or service are undefined
-        var industryScore = users[i].traits.industry[mission.traits.industry];
-        industryScore = industryScore || 0;
-        var serviceScore = users[i].traits.service[mission.traits.service];
-        serviceScore = serviceScore || 0;
-
-        var userScore = Math.abs(mission.traits.hours - users[i].traits.hours) * -1 + industryScore + serviceScore;
-
-        users[i].score = userScore;
+        users[i].score = Calculate.score(mission, users[i])
       }
       users.sort(function(a, b) {
         if (a.score < b.score) {
@@ -144,7 +121,7 @@ exports.matchUser = function(req, res) {
         return 0;
       });
       var found = false;
-      for (var j = 0; !found && j < 3; j++) {
+      for (var j = 0; !found && j < users.length; j++) {
         if (users[j].traits){
           users[j].traits = {}
         }
@@ -157,7 +134,7 @@ exports.matchUser = function(req, res) {
             alreadyMatched = true;
           }
         }
-        if(!alreadyMatched){
+        if(!alreadyMatched && !(mission.requester == users[j]._id)){
           //&& (users[j].traits.availableOn < mission.traits.availableOn && users[j].traits.availableOn)
           matchedUser = users[j];
           found = true;
@@ -244,7 +221,7 @@ exports.tagUser = function(req, res) {
 // User responds to a request
 exports.tagMission = function(req, res) {
   var accepted = req.body.accepted;
-  Mission.findById(req.params.id, function(err, mission) {
+  Mission.findById(req.body.mission, function(err, mission) {
     if (err) {
       return handleError(res, err);
     }
@@ -257,26 +234,79 @@ exports.tagMission = function(req, res) {
         if (mission.matches[i].accepted == accepted) {
           return res.send(401, 'User has already responded to this request')
         } else {
+          tagged = true;
           mission.matches[i].accepted = accepted;
           mission.matches[i].responded = new Date();
-          tagged = true;
         }
-      }
-      if (!tagged) {
-        var pushed = {
-          user: req.user._id,
-          responded: new Date(),
-          accepted: accepted
-        }
-        mission.matches.push(pushed)
       }
     }
+    if (!tagged) {
+      var pushed = {
+        user: req.user._id,
+        responded: new Date(),
+        accepted: accepted
+      }
+      mission.matches.push(pushed)
+    }
+    mission.save(function(){
+      return res.send(200)
+    }, function(err){
+      return res.send(500)
+    })
   })
 }
 
 
 // Show a mission that user has not already tagged
 exports.matchMission = function(req, res) {
+  User.findById(req.user._id, '-hashedPassword -salt').lean().exec(function(err, user){
+    var matchedMission;
+
+    Mission.find().lean().exec(function(err, foundMissions) {
+      var missions = foundMissions;
+      if (err) {
+        return handleError(res, err);
+      }
+
+      for (var i = 0; i < missions.length; i++) {
+        missions[i].score = Calculate.score(user, missions[i]);
+      }
+      missions.sort(function(a, b) {
+        if (a.score < b.score) {
+          return 1;
+        }
+        if (a.score > b.score) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      var found = false;
+      for (var j = 0; !found && j < missions.length; j++) {
+        if (missions[j].traits){
+          missions[j].traits = {}
+        }
+        var alreadyMatched = false;
+        if(!missions[j].matches){
+          missions[j].matches = []
+        }
+        for(var k = 0; k < missions[j].matches.length; k++){
+          if(req.user._id == missions[j].matches[k].user){
+            alreadyMatched = true;
+          }
+        }
+        if(!alreadyMatched && !(missions[j].requester == req.user._id)){
+          //&& (users[j].traits.availableOn < mission.traits.availableOn && users[j].traits.availableOn)
+          matchedMission = missions[j];
+          found = true;
+          return res.json(200, matchedMission);
+        }
+      }
+      if(!matchedMission){
+        return res.send(404, 'No missions matched.')
+      }
+    });
+  })
 };
 
 

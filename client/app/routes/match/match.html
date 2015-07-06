@@ -2,10 +2,13 @@
 <br>
 <div class="container">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3" ng-show="noMatches">
+      We can't find any more open missions for you right now. Check back soon!
+    </div>
+    <div class="col-md-6 col-md-offset-3" ng-show="!noMatches">
       <md-card class="md-default-theme">
         <md-card-content class="mission-background-image">
-        <div class="pull-right text-large">76%
+        <div class="pull-right text-large">{{mission.score}}
         </div>
         <div>
           <h3>{{mission.title}}</h3>
@@ -28,9 +31,9 @@
           &nbsp;
           <div class="row">
             <div class="col-md-12 centered">
-              <a href=""><button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button"><i class="fa fa-times"></i></button></a>
+              <button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button>
               &nbsp;&nbsp;
-              <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button"><i class="fa fa-star"></i></button></a>
+              <button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button>
           <br>&nbsp;
           </div>
         </div>
