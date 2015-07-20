@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MatchToMissionsCtrl', function ($scope, requestFactory) {
+  .controller('MatchToMissionsCtrl', function ($scope, requestFactory, traitFactory) {
     $scope.mission = {
-      title: 'Stop the Joker',
+      title: '',
       score: 76,
-      description: 'You must stop the Joker.'
+      description: ''
     };
 
     $scope.noMatches = true;
@@ -13,7 +13,11 @@ angular.module('heroesApp')
     requestFactory.matchMission().then(function(mission){
       $scope.noMatches = false;
       $scope.mission = mission;
+      console.log(mission)
     })
+
+    $scope.industryKey = traitFactory.industryKey()
+    $scope.serviceKey = traitFactory.serviceKey()
 
     $scope.tag = function(accepted){
       var params = {

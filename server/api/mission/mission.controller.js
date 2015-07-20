@@ -68,6 +68,7 @@ exports.create = function(req, res) {
     times: {
       submitted: new Date()
     },
+    status: 'Active',
     open: true
   }
 
@@ -84,7 +85,7 @@ exports.create = function(req, res) {
 };
 
 // Show relevant user who the mission hasn't yet seen
-exports.matchUser = function(req, res) {
+exports.pairUser = function(req, res) {
   Mission.findById(req.params.id, function(err, mission) {
     if (err) {
       return handleError(res, err);
@@ -195,20 +196,21 @@ exports.tagUser = function(req, res) {
           subject: 'IBM Beacon: You\'ve been requested!',
           html: 'Looks like someone is interested in bringing you onto their team! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
         };
+        return res.send(200, false)
       } else {
         notice = {
           to: user.email,
           from: 'IBM Beacon HQ <donotreply@heroes.ibmthinklab.com>',
           subject: 'IBM Beacon: You have a match!',
-          html: 'Looks like someone is interested in bringing you onto their team! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
+          html: 'You\'ve found a match! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
         };
+        return res.send(200, true)
       }
 
       mailgun.messages().send(notice, function(error, body) {
         if (error) {
           console.log(error)
         }
-        return res.send(200)
       });
     })
 
@@ -258,12 +260,13 @@ exports.tagMission = function(req, res) {
 
 
 // Show a mission that user has not already tagged
-exports.matchMission = function(req, res) {
+exports.pairMission = function(req, res) {
   User.findById(req.user._id, '-hashedPassword -salt').lean().exec(function(err, user){
     var matchedMission;
 
     Mission.find().lean().exec(function(err, foundMissions) {
       var missions = foundMissions;
+      console.log(missions)
       if (err) {
         return handleError(res, err);
       }
@@ -283,7 +286,7 @@ exports.matchMission = function(req, res) {
       });
       var found = false;
       for (var j = 0; !found && j < missions.length; j++) {
-        if (missions[j].traits){
+        if (!missions[j].traits){
           missions[j].traits = {}
         }
         var alreadyMatched = false;
@@ -299,6 +302,7 @@ exports.matchMission = function(req, res) {
           //&& (users[j].traits.availableOn < mission.traits.availableOn && users[j].traits.availableOn)
           matchedMission = missions[j];
           found = true;
+          console.log(matchedMission)
           return res.json(200, matchedMission);
         }
       }
@@ -332,8 +336,9 @@ exports.abort = function(req, res) {
     if (isOwner) {
       mission.status = 'Canceled'
       mission.open = false;
-      mission.save()
-      return res.json(200, request);
+      mission.save(function(err, saved){
+        return res.json(200, saved);
+      })
     } else {
       return res.json(401)
     }

@@ -18,15 +18,20 @@ angular.module('heroesApp')
         , user: $scope.match._id
         , requested: requested
       }
-      requestFactory.tagUser(params).then(function(){
-        requestFactory.matchUser($scope.missionId).then(function(newMatch){
-          $scope.noMatches = false;
-          $scope.match = newMatch;
-        }).catch(function(err) {
-          $scope.noMatches = true;
-        })
+      requestFactory.tagUser(params).then(function(isMatched){
+        if(isMatched){
+
+        } else {
+          requestFactory.matchUser($scope.missionId).then(function(newMatch){
+            $scope.noMatches = false;
+            $scope.match = newMatch;
+          }).catch(function(err) {
+            $scope.noMatches = true;
+          })
+        }
       })
     }
+
 
     //$scope.match = {
       //name: 'Clark Kent',

@@ -8,7 +8,7 @@ var MissionSchema = new Schema({
   description: String,
   requester: String,
   open: Boolean,
-  status: String,
+  status: String, // Either Open, Complete, Canceled
   traits: {
     hours: Number,
     quantity: Number,

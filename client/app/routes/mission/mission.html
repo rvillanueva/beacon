@@ -10,29 +10,35 @@
           <div class="form-group row">
             <label class="col-lg-3 control-label">Mission</label>
             <div class="col-lg-9">
-              {{request.title}}
+              {{mission.title}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Responders</label>
+            <label class="col-lg-3 control-label">Status</label>
+            <div class="col-lg-9">
+              {{mission.status}}
+            </div>
+            &nbsp;
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-3 control-label">Matches</label>
             <div class="col-lg-9">
               {{accepted.length}}
             </div>
             &nbsp;
           </div>
-
           <div class="form-group row">
             <label class="col-lg-3 control-label">Submitted</label>
             <div class="col-lg-9">
-              {{request.times.submitted | date:"short"}}
+              {{mission.times.submitted | date:"short"}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
             <label class="col-lg-3 control-label">Hours Needed Today</label>
             <div class="col-lg-9">
-              {{request.traits.hours}}
+              {{mission.traits.hours}}
             </div>
             &nbsp;
           </div>
@@ -40,26 +46,28 @@
 
           <div class="form-group row">
             <label for="select" class="col-lg-3 control-label">Industry</label>
-            <div class="col-lg-9"> {{request.traits.industry}}
+            <div class="col-lg-9">
+              <span ng-show="mission.traits.industry">{{industryKey[mission.traits.industry].name}}</span>
+              <span ng-show="!mission.traits.industry">Cross-Industry</span>
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
             <label for="select" class="col-lg-3 control-label">Service Area</label>
-            <div class="col-lg-9">{{request.traits.service}}
+            <div class="col-lg-9">
+              <span ng-show="mission.traits.service">{{serviceKey[mission.traits.service].name}}</span>
+              <span ng-show="!mission.traits.service">Cross-Service Area</span>
             </div>
             &nbsp;
           </div>
           <br>
           <div class="centered">
-            <button class="btn btn-md btn-primary" ng-if="responder && !owner" ng-click="accept()">Accept</button>
-            <button class="btn btn-md btn-warning" ng-if="responder && !owner" ng-click="decline()">Decline</button>
-            <button class="btn btn-sm btn-danger" ng-if="owner" ng-click="abort()">Abort Mission</button>
+            <button class="btn btn-sm btn-danger" ng-if="owner && mission.open" ng-click="abort()">Abort Mission</button>
           </div>
         </md-card-content>
       </md-card>
     </div>
-    <div class="col-md-8" ng-controller="MatchToHeroesCtrl" ng-include="'app/routes/mission/match/match.html'">
+    <div class="col-md-8" ng-if="mission.open" ng-controller="MatchToHeroesCtrl" ng-include="'app/routes/mission/match/match.html'">
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
 angular.module('heroesApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/main', {
         templateUrl: 'app/routes/main/main.html',
         controller: 'MainCtrl'
       });

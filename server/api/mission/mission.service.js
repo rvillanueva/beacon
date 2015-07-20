@@ -4,6 +4,9 @@
  *
  */
 function score(user, mission){
+  if(!mission.traits){
+    mission.traits = {}
+  }
   if(!mission.traits.hours){
     mission.traits.hours = 0;
   }

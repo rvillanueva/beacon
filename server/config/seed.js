@@ -17,7 +17,11 @@ Mission.find({}).remove(function(){
     matches: [],
     responders: [],
     times: { submitted: 'Thu Jul 02 2015 21:56:10 GMT-0400 (EDT)' },
-    traits: { hours: 5 }
+    traits: {
+      hours: 5,
+      industry: "aerospace",
+      service: "ams"
+    }
   })
 });
 

@@ -7,16 +7,8 @@ angular.module('heroesApp')
       'link': '/'
     },
     {
-      'title': 'Profile',
-      'link': '/me'
-    },
-    {
-      'title': 'Mission Control',
+      'title': 'My Missions',
       'link': '/missions'
-    },
-    {
-      'title': 'Find Mission',
-      'link': '/match'
     }];
 
     $scope.isCollapsed = true;

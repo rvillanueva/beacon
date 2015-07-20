@@ -3,7 +3,7 @@
 angular.module('heroesApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/match/', {
+      .when('/', {
         templateUrl: 'app/routes/match/match.html',
         controller: 'MatchToMissionsCtrl'
       });
