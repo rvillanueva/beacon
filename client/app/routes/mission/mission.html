@@ -24,7 +24,7 @@
           <div class="form-group row">
             <label class="col-lg-3 control-label">Matches</label>
             <div class="col-lg-9">
-              {{accepted.length}}
+              {{matches.length}}
             </div>
             &nbsp;
           </div>
@@ -62,6 +62,7 @@
           </div>
           <br>
           <div class="centered">
+            <button class="btn btn-lg btn-primary" ng-if="owner && mission.open" ng-click="viewMatches()">View Matches</button><br><br>
             <button class="btn btn-sm btn-danger" ng-if="owner && mission.open" ng-click="abort()">Abort Mission</button>
           </div>
         </md-card-content>
@@ -71,3 +72,4 @@
     </div>
   </div>
 </div>
+<div ng-include="'components/footer/footer.html'"></div>

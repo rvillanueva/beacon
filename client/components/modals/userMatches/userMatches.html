@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
+  <h4 class="modal-title">Matches</h4>
+</div>
+<div class="modal-body">
+  <div ng-repeat="match in mission.matches | filter: {accepted:true}">{{match}}</div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-md btm-default" ng-click="$dismiss()">Done</button>
+</div>

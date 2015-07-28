@@ -31,8 +31,7 @@ angular.module('heroesApp')
         }
       })
     }
-
-
+    
     //$scope.match = {
       //name: 'Clark Kent',
       //score: 76,

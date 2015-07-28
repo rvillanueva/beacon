@@ -68,7 +68,7 @@ exports.create = function(req, res) {
     times: {
       submitted: new Date()
     },
-    status: 'Active',
+    status: 'Open',
     open: true
   }
 
@@ -192,7 +192,7 @@ exports.tagUser = function(req, res) {
         // Notify user
         notice = {
           to: user.email,
-          from: 'IBM Beacon HQ <donotreply@heroes.ibmthinklab.com>',
+          from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
           subject: 'IBM Beacon: You\'ve been requested!',
           html: 'Looks like someone is interested in bringing you onto their team! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
         };
@@ -200,7 +200,7 @@ exports.tagUser = function(req, res) {
       } else {
         notice = {
           to: user.email,
-          from: 'IBM Beacon HQ <donotreply@heroes.ibmthinklab.com>',
+          from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
           subject: 'IBM Beacon: You have a match!',
           html: 'You\'ve found a match! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
         };

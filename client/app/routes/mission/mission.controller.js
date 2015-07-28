@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MissionCtrl', function ($scope, User, $routeParams, requestFactory, traitFactory) {
+  .controller('MissionCtrl', function ($scope, User, $routeParams, $modal, requestFactory, traitFactory) {
     $scope.missionId = $routeParams.id
     var self = User.get();
-    $scope.accepted = []
+    $scope.matches = []
     requestFactory.getRequest($scope.missionId).then(function(data){
       console.log(data)
       $scope.mission = data;
@@ -19,7 +19,7 @@ angular.module('heroesApp')
       }
       angular.forEach($scope.mission.matches, function(match, index){
         if(match.accepted){
-          $scope.accepted.push(match.accepted)
+          $scope.matches.push(match.accepted)
         }
       })
     })
@@ -37,6 +37,24 @@ angular.module('heroesApp')
         })
       }
     }
+
+    $scope.viewMatches = function(){
+        var modalInstance = $modal.open({
+         templateUrl: '../components/modals/userMatches/userMatches.html',
+         controller: 'UserMatchesModalCtrl',
+         size: 'md',
+         backdrop: true,
+         resolve: {
+           Mission: function(){
+             return $scope.missionId
+           }
+         }
+        });
+
+        modalInstance.result.then(function (data) {
+        })
+
+      }
 
     $scope.accept = function(){
       requestFactory.accept(reqId).then(function(){

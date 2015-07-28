@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MeCtrl', function ($scope, profileFactory, $location) {
+  .controller('MeCtrl', function ($scope, profileFactory, $location, traitFactory) {
 
     profileFactory.me().then(function(data){
       $scope.profile = data;
@@ -18,4 +18,8 @@ angular.module('heroesApp')
       })
 
     }
+
+    $scope.industries = traitFactory.industryKey();
+    $scope.industries = traitFactory.industryKey();
+
   });

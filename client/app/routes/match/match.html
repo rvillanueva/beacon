@@ -8,11 +8,11 @@
     <div class="col-md-6 col-md-offset-3" ng-show="!noMatches">
       <md-card class="md-default-theme">
         <md-card-content class="mission-background-image">
-        <div class="pull-right text-large">{{mission.score}}
-        </div>
-        <div>
-          <h3>{{mission.title}}</h3>
-        </div>
+          <div class="pull-right text-large">{{mission.score}}
+          </div>
+          <div>
+            <h3>{{mission.title}}</h3>
+          </div>
         </md-card-content>
       </md-card>
       <md-card class="md-default-theme retailer-background">
@@ -22,45 +22,54 @@
               {{mission.description}}
             </p>
             <p>
-              <strong>Industry:</strong>&nbsp;{{industryKey[mission.traits.industry].name}}<br>
-              <strong>Service Area:</strong>&nbsp;{{serviceKey[mission.traits.service].name}}<br>
+              <strong>Hours Requested:</strong>&nbsp;{{mission.traits.hours}}
               <br>
-              <strong>Charge Code:</strong>&nbsp;{{mission.traits.charge ? 'Available' : 'Unavailable'}}<br>
+              <strong>Industry:</strong>&nbsp;{{industryKey[mission.traits.industry].name}}
+              <br>
+              <strong>Service Area:</strong>&nbsp;{{serviceKey[mission.traits.service].name}}
+              <br>
+              <br>
+              <strong>Charge Code:</strong>&nbsp;{{mission.traits.charge ? 'Available' : 'Unavailable'}}
+              <br>
             </p>
-          <br>
-          &nbsp;
-          <div class="row">
-            <div class="col-md-12 centered">
-              <button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button>
-              &nbsp;&nbsp;
-              <button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button>
-          <br>&nbsp;
+            <br> &nbsp;
+            <div class="row">
+              <div class="col-md-12 centered">
+                <button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button>
+                &nbsp;&nbsp;
+                <button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button>
+                <br>&nbsp;
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
         </md-card-content>
       </md-card>
-  </div>
-  <div class="col-md-3 centered">
+    </div>
+    <div class="col-md-3 centered">
       <a href="/missions/new">
         <button class="centered btn btn-primary btn-md" style="width: 50%">
-        <br>
-        <span class="glyphicon glyphicon-flash gigantic"></span><br><br>
-          Find a Hero<br>
+          <br>
+          <span class="glyphicon glyphicon-flash gigantic"></span>
+          <br>
+          <br>Find a Hero
+          <br>
         </button>
       </a>
-      <br><br>
-      <br><br>
+      <br>
+      <br>
       <a href="/me">
         <button class="centered btn btn-primary btn-md" style="width: 50%">
-        <br>
-        <span class="glyphicon glyphicon-flash gigantic"></span><br><br>
-          Update My Profile<br>
+          <br>
+          <span class="glyphicon glyphicon-flash gigantic"></span>
+          <br>
+          <br>Update My Profile
+          <br>
         </button>
       </a>
+    </div>
   </div>
-</div>
-<br><br>&nbsp;
+  <br>
+  <br>&nbsp;
 
 </div>
-</div>
+<div ng-include="'components/footer/footer.html'"></div>

@@ -19,10 +19,15 @@
       </md-card>
       <md-card class="md-default-theme retailer-background">
         <md-card-content>
-          <div ng-show="linkedin.publicProfileUrl" class="centered">
-            <a ng-href="{{linkedin.publicProfileUrl}}" target="_blank"><button class="btn btn-primary btn-md">LinkedIn</button></a>
+          <div ng-show="match.linkedin.publicProfileUrl">
+            <a ng-href="{{match.linkedin.publicProfileUrl}}" target="_blank"><button class="btn btn-primary btn-lg">LinkedIn</button></a>
+            <br><br>
           </div>
           <div class="col-md-6">
+            <span ng-show="match.linkedin.summary">
+              {{match.linkedin.summary}}
+              <br><br>
+            </span>
             <h4>Highlights</h4>
             <ul>
               <li>
