@@ -3,7 +3,20 @@
   <h4 class="modal-title">Matches</h4>
 </div>
 <div class="modal-body">
-  <div ng-repeat="match in mission.matches | filter: {accepted:true}">{{match}}</div>
+  <div ng-repeat="match in matches | filter: {'requested': true}">
+  <md-card class="md-default-theme">
+    <md-card-content>
+      <div class="pull-left">
+        <img ng-src="{{match.user.pictureUrl}}" style="padding: 5px">
+      </div>
+      <div>
+        <strong>{{match.user.name}}</strong><br>
+        {{match.user.title}}<br>
+        <a href="{{match.user.linkedin.publicProfileUrl}}"><button class="btn btn-md btn-default"><span class="fa fa-linkedin"></span></button></a>
+      </div>
+    </md-card-content>
+  </md-card>
+  </div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-md btm-default" ng-click="$dismiss()">Done</button>

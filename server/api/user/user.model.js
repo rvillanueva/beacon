@@ -68,7 +68,11 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'pictureUrl': this.pictureUrl,
+      'linkedin': this.linkedin,
+      'traits': this.traits,
+      'title': this.title
     };
   });
 
