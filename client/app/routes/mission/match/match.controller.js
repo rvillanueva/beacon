@@ -1,42 +1,46 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('MatchToHeroesCtrl', function ($scope, requestFactory) {
+  .controller('MatchToHeroesCtrl', function ($scope, requestFactory, $modal) {
 
-
-    requestFactory.matchUser($scope.missionId).then(function(match){
-      $scope.noMatches = false;
-      $scope.match = match;
-    }).catch(function(err) {
-      console.log(err)
-      $scope.noMatches = true;
-    })
-
-    $scope.tag = function(requested){
-      var params = {
-        mission: $scope.missionId
-        , user: $scope.match._id
-        , requested: requested
-      }
-      requestFactory.tagUser(params).then(function(isMatched){
-        if(isMatched){
-
-        } else {
-          requestFactory.matchUser($scope.missionId).then(function(newMatch){
-            $scope.noMatches = false;
-            $scope.match = newMatch;
-          }).catch(function(err) {
-            $scope.noMatches = true;
-          })
-        }
+    $scope.getUsers = function(){
+      requestFactory.returnUsers($scope.missionId).then(function(users){
+        $scope.noUsers = false;
+        $scope.users = users;
+        angular.forEach($scope.users, function(user, index){
+          if (typeof $scope.taggedIndex[user._id] !== 'undefined'){
+            user.match = $scope.taggedIndex[user._id];
+            delete user.match.user;
+          }
+        })
+        console.log($scope.users)
+      }).catch(function(err) {
+        console.log(err)
+        $scope.noUsers = true;
       })
     }
-    
-    //$scope.match = {
-      //name: 'Clark Kent',
-      //score: 76,
-      //title: 'Experience Designer',
-      //pictureUrl: 'https://media.licdn.com/mpr/mprx/0_rVO-LKrBUEXpGFUqYy0DL-lsR7rlh3oq-ZoSL1KLXuXT05jNypaOwPXIzFKm_6I4AJp2oNaSF7uF'
-    //};
 
+    $scope.getUsers();
+
+    $scope.open = function(user){
+      var modalInstance = $modal.open({
+       templateUrl: '../components/modals/viewUser/viewUser.html',
+       controller: 'UserViewModalCtrl',
+       size: 'md',
+       backdrop: true,
+       resolve: {
+         User: function(){
+           return user;
+         },
+         Mission: function(){
+           return $scope.mission;
+         }
+       }
+      });
+
+      modalInstance.result.then(function (data) {
+        $scope.getUsers();
+      })
+
+    }
   });

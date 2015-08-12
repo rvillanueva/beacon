@@ -149,6 +149,62 @@ exports.pairUser = function(req, res) {
   })
 };
 
+// Show relevant users
+exports.returnUsers = function(req, res) {
+  Mission.findById(req.params.id, function(err, mission) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!mission) {
+      return res.send(404);
+    }
+    if(!(mission.requester == req.user._id)){
+      return res.send(401);
+    }
+
+    var skipped = 0;
+
+    User.find('-hashedPassword -salt').lean().exec(function(err, foundUsers) {
+      var users = foundUsers;
+      var returnedUsers = [];
+      if (err) {
+        return handleError(res, err);
+      }
+      var matchedUser;
+      for (var i = 0; i < users.length; i++) {
+        // score based on hours needed
+        // score based on industry and service area
+        // score based on number of requests tagged
+        users[i].score = Calculate.score(mission, users[i])
+      }
+      // Sort based on score
+      users.sort(function(a, b) {
+        if (a.score < b.score) {
+          return 1;
+        }
+        if (a.score > b.score) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      var found = false;
+      for (var j = 0; !found && j < users.length; j++) {
+        if (users[j].traits){
+          users[j].traits = {}
+        }
+        returnedUsers.push(users[j])
+      }
+      return res.json(200, returnedUsers);
+
+      if(returnedUsers.length == 0){
+        return res.send(404, 'No users matched.')
+      }
+    });
+  })
+};
+
+
 // Request a user
 exports.tagUser = function(req, res) {
 
@@ -234,7 +290,7 @@ exports.tagMission = function(req, res) {
     for (var i = 0; i < mission.matches.length; i++) {
       if (mission.matches[i].user == req.user._id) {
         if (mission.matches[i].accepted == accepted) {
-          return res.send(401, 'User has already responded to this request')
+          return res.send(404, 'User has already responded to this request')
         } else {
           tagged = true;
           mission.matches[i].accepted = accepted;
@@ -260,10 +316,10 @@ exports.tagMission = function(req, res) {
 
 
 // Show a mission that user has not already tagged
-exports.pairMission = function(req, res) {
+exports.returnMissions = function(req, res) {
+  console.log(req.user._id)
   User.findById(req.user._id, '-hashedPassword -salt').lean().exec(function(err, user){
-    var matchedMission;
-
+    var returnedMissions = []
     Mission.find().lean().exec(function(err, foundMissions) {
       var missions = foundMissions;
       console.log(missions)
@@ -298,17 +354,15 @@ exports.pairMission = function(req, res) {
             alreadyMatched = true;
           }
         }
-        if(!alreadyMatched && !(missions[j].requester == req.user._id)){
-          //&& (users[j].traits.availableOn < mission.traits.availableOn && users[j].traits.availableOn)
-          matchedMission = missions[j];
-          found = true;
-          console.log(matchedMission)
-          return res.json(200, matchedMission);
+        if(!(missions[j].requester == req.user._id)){
+          returnedMissions.push(missions[j])
         }
       }
-      if(!matchedMission){
+      if(returnedMissions.length == 0){
         return res.send(404, 'No missions matched.')
       }
+      return res.json(200, returnedMissions);
+
     });
   })
 };
@@ -316,6 +370,7 @@ exports.pairMission = function(req, res) {
 
 // Requester chooses a user
 exports.accept = function(req, res) {
+  return res.send(200)
 };
 
 
@@ -334,7 +389,7 @@ exports.abort = function(req, res) {
       isOwner = true;
     }
     if (isOwner) {
-      mission.status = 'Canceled'
+      mission.status = 'Canceled';
       mission.open = false;
       mission.save(function(err, saved){
         return res.json(200, saved);

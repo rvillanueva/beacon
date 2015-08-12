@@ -11,10 +11,10 @@ router.get('/', auth.hasRole('Admin'), controller.index);
 router.get('/mine', auth.isAuthenticated(), controller.myIndex);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/new', auth.isAuthenticated(), controller.create); // Create a new mission
-router.get('/find/:id', auth.isAuthenticated(), controller.pairUser); // Mission surfaces a user
-router.post('/tag', auth.isAuthenticated(), controller.tagUser); // Mission tags a user
 router.post('/users/tag', auth.isAuthenticated(), controller.tagMission); // User tags a mission
-router.get('/users/find', auth.isAuthenticated(), controller.pairMission); // User finds a mission
+router.get('/find/:id', auth.isAuthenticated(), controller.returnUsers); // Mission surfaces a user
+router.post('/tag/:id', auth.isAuthenticated(), controller.tagUser); // Mission tags a user
+router.get('/users/find', auth.isAuthenticated(), controller.returnMissions); // User finds a mission
 router.post('/accept/:id', auth.isAuthenticated(), controller.accept); // Mission accepts a user
 router.post('/cancel/:id', auth.isAuthenticated(), controller.abort); // Mission aborts
 

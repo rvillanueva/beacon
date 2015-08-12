@@ -1,69 +1,26 @@
-<div ng-show="noMatches">
+<div class="centered">
+  <h4>Matches</h4>
+</div>
+<div ng-show="noUsers">
   We can't find any available heroes for you right now. Check back soon!
 </div>
-  <div class="row" ng-if="noMatches == false">
-      <md-card class="md-default-theme">
-        <md-card-content class="hero-background-image">
-        <div class="pull-right text-large">76%
+<div class="row" ng-if="noUsers == false">
+  <div class="col-md-12" ng-repeat="user in users">
+    <md-card class="md-default-theme user-card" ng-click="open(user)">
+      <md-card-content class="hero-background-image">
+        <div class="pull-right text-large">{{user.score}}%
         </div>
         <div class="pull-left">
-          <img class="profile-pic" ng-if="match.pictureUrl" src="{{match.pictureUrl}}">
+          <img class="profile-pic" ng-if="user.pictureUrl" src="{{user.pictureUrl}}">
         </div>
         <div>
-          <h3>{{match.name}}</h3>
+          <h3>{{user.name}}</h3>
           <p>
-            {{match.title}}
+            {{user.title}}
           </p>
         </div>
-        </md-card-content>
-      </md-card>
-      <md-card class="md-default-theme retailer-background">
-        <md-card-content>
-          <div ng-show="match.linkedin.publicProfileUrl">
-            <a ng-href="{{match.linkedin.publicProfileUrl}}" target="_blank"><button class="btn btn-primary btn-lg">LinkedIn</button></a>
-            <br><br>
-          </div>
-          <div class="col-md-6">
-            <span ng-show="match.linkedin.summary">
-              {{match.linkedin.summary}}
-              <br><br>
-            </span>
-            <h4>Highlights</h4>
-            <ul>
-              <li>
-                Can fly
-              </li>
-              <li>
-                Bulletproof
-              </li>
-              <li>
-                Superman
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <h4>Details</h4>
-            <ul>
-              <li>
-                Awesome
-              </li>
-              <li>
-                Bulletproof
-              </li>
-              <li>
-                Superman
-              </li>
-            </ul>
-          </div>
-          <br>
-          &nbsp;
-          <div class="row">
-            <div class="col-md-12 centered">
-              <a href=""><button class="btn-width-medium md-fab md-warning md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button></a>
-              &nbsp;&nbsp;
-              <a href=""><button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button></a>
-          </div>
-        </md-card-content>
-      </md-card>
+      </md-card-content>
+    </md-card>
+    <br>
   </div>
 </div>

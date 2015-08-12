@@ -2,70 +2,55 @@
 <br>
 <div class="container">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3" ng-show="noMatches">
+    <div class="col-md-8 col-md-offset-2">
+      <h4>Recommended Missions</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-3" ng-show="noMatches">
       We can't find any more open missions for you right now. Check back soon!
     </div>
-    <div class="col-md-6 col-md-offset-3" ng-show="!noMatches">
-      <md-card class="md-default-theme">
-        <md-card-content class="mission-background-image">
-          <div class="pull-right text-large">{{mission.score}}
-          </div>
-          <div>
-            <h3>{{mission.title}}</h3>
-          </div>
-        </md-card-content>
-      </md-card>
-      <md-card class="md-default-theme retailer-background">
-        <md-card-content>
-          <div class="col-md-12">
-            <p class="white-spaced">
-              {{mission.description}}
-            </p>
-            <p>
-              <strong>Hours Requested:</strong>&nbsp;{{mission.traits.hours}}
-              <br>
-              <strong>Industry:</strong>&nbsp;{{industryKey[mission.traits.industry].name}}
-              <br>
-              <strong>Service Area:</strong>&nbsp;{{serviceKey[mission.traits.service].name}}
-              <br>
-              <br>
-              <strong>Charge Code:</strong>&nbsp;{{mission.traits.charge ? 'Available' : 'Unavailable'}}
-              <br>
-            </p>
-            <br> &nbsp;
-            <div class="row">
-              <div class="col-md-12 centered">
-                <button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button" ng-click="tag(false)"><i class="fa fa-times"></i></button>
-                &nbsp;&nbsp;
-                <button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(true)"><i class="fa fa-star"></i></button>
-                <br>&nbsp;
+    <div class="col-md-8 col-md-offset-2" ng-show="!noMatches">
+      <div ng-repeat="mission in missions">
+        <md-card class="md-default-theme">
+          <md-card-content class="mission-background-image">
+            <div class="pull-right text-large">{{mission.score}}%
+            </div>
+            <div>
+              <h3>{{mission.title}}</h3>
+            </div>
+          </md-card-content>
+        </md-card>
+        <md-card class="md-default-theme retailer-background">
+          <md-card-content>
+            <div class="col-md-12">
+              <p class="white-spaced">
+                {{mission.description}}
+              </p>
+              <p>
+                <strong>Hours Requested:</strong>&nbsp;{{mission.traits.hours}}
+                <br>
+                <strong>Industry:</strong>&nbsp;{{industryKey[mission.traits.industry].name}}
+                <br>
+                <strong>Service Area:</strong>&nbsp;{{serviceKey[mission.traits.service].name}}
+                <br>
+                <br>
+                <strong>Charge Code:</strong>&nbsp;{{mission.traits.charge ? 'Available' : 'Unavailable'}}
+                <br>
+              </p>
+              <br> &nbsp;
+              <div class="row">
+                <div class="col-md-12 centered">
+                  <button class="btn-width-medium md-fab md-danger md-button md-default-theme" aria-label="Button" ng-click="tag(mission._id, false)"><i class="fa fa-times"></i></button>
+                  &nbsp;&nbsp;
+                  <button class="btn-width-medium md-fab md-primary md-button md-default-theme" aria-label="Button" ng-click="tag(mission._id, true)"><i class="fa fa-star"></i></button>
+                  <br>&nbsp;
+                </div>
               </div>
             </div>
-          </div>
-        </md-card-content>
-      </md-card>
-    </div>
-    <div class="col-md-3 centered">
-      <a href="/missions/new">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br>Find a Hero
-          <br>
-        </button>
-      </a>
-      <br>
-      <br>
-      <a href="/me">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br>Update My Profile
-          <br>
-        </button>
-      </a>
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
   </div>
   <br>

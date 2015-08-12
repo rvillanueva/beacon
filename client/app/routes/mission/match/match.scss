@@ -1,4 +1,13 @@
 .hero-background-image{
-  background: url('/assets/images/newyork.jpg') 0/cover;
+  /*background: url('/assets/images/newyork.jpg') 0/cover;
+  background-color: blue;
+  color: #FFFFFF;*/
+}
+.hero-background-image:hover{
+  background-color: #199F93;
   color: #FFFFFF;
+}
+
+.user-card {
+  cursor: pointer;
 }

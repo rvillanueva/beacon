@@ -4,6 +4,7 @@
  *
  */
 function score(user, mission){
+
   if(!mission.traits){
     mission.traits = {}
   }
@@ -28,7 +29,14 @@ function score(user, mission){
   var serviceScore = user.traits.service[mission.traits.service];
   serviceScore = serviceScore || 0;
 
-  var matchScore = Math.abs(mission.traits.hours - user.traits.hours) * -1 + industryScore + serviceScore;
-  return matchScore;
+  var hoursScore = 10;
+  if (user.traits.hours < mission.traits.hours){
+    hoursScore -= (mission.traits.hours - user.traits.hours);
+  }
+
+  var maxPossible = 30;
+  var matchScore = hoursScore + industryScore * 10 + serviceScore * 10;
+  var finalScore = Math.floor(matchScore/maxPossible*100);
+  return finalScore;
 }
 exports.score = score;

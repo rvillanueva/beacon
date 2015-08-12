@@ -4,6 +4,8 @@ angular.module('heroesApp')
   .controller('MissionCtrl', function ($scope, User, $routeParams, $modal, requestFactory, traitFactory) {
     $scope.missionId = $routeParams.id
     var self = User.get();
+
+    $scope.taggedIndex = {}
     $scope.matches = []
     requestFactory.getRequest($scope.missionId).then(function(data){
       console.log(data)
@@ -21,6 +23,7 @@ angular.module('heroesApp')
         if(match.accepted){
           $scope.matches.push(match.accepted)
         }
+        $scope.taggedIndex[match.user] = match;
       })
     })
 

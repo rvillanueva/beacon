@@ -1,5 +1,4 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<br>
 <div class="container">
   <div class="row">
     <div class="col-md-4">
@@ -8,36 +7,36 @@
           <h3 class="centered">Mission Details</h3>
           <br>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Mission</label>
-            <div class="col-lg-9">
+            <label class="col-md-3 control-label">Mission</label>
+            <div class="col-md-9">
               {{mission.title}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Status</label>
-            <div class="col-lg-9">
+            <label class="col-md-3 control-label">Status</label>
+            <div class="col-md-9">
               {{mission.status}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Matches</label>
-            <div class="col-lg-9">
+            <label class="col-md-3 control-label">Matches</label>
+            <div class="col-md-9">
               {{matches.length}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Submitted</label>
-            <div class="col-lg-9">
+            <label class="col-md-3 control-label">Submitted</label>
+            <div class="col-md-9">
               {{mission.times.submitted | date:"short"}}
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label class="col-lg-3 control-label">Hours Needed Today</label>
-            <div class="col-lg-9">
+            <label class="col-md-3 control-label">Hours This Week</label>
+            <div class="col-md-9">
               {{mission.traits.hours}}
             </div>
             &nbsp;
@@ -45,16 +44,16 @@
           &nbsp;
 
           <div class="form-group row">
-            <label for="select" class="col-lg-3 control-label">Industry</label>
-            <div class="col-lg-9">
+            <label for="select" class="col-md-3 control-label">Industry</label>
+            <div class="col-md-9">
               <span ng-show="mission.traits.industry">{{industryKey[mission.traits.industry].name}}</span>
               <span ng-show="!mission.traits.industry">Cross-Industry</span>
             </div>
             &nbsp;
           </div>
           <div class="form-group row">
-            <label for="select" class="col-lg-3 control-label">Service Area</label>
-            <div class="col-lg-9">
+            <label for="select" class="col-md-3 control-label">Service Area</label>
+            <div class="col-md-9">
               <span ng-show="mission.traits.service">{{serviceKey[mission.traits.service].name}}</span>
               <span ng-show="!mission.traits.service">Cross-Service Area</span>
             </div>
@@ -62,7 +61,6 @@
           </div>
           <br>
           <div class="centered">
-            <button class="btn btn-lg btn-primary" ng-if="owner && mission.open" ng-click="viewMatches()">View Matches</button><br><br>
             <button class="btn btn-sm btn-danger" ng-if="owner && mission.open" ng-click="abort()">Abort Mission</button>
           </div>
         </md-card-content>

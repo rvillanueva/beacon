@@ -10,24 +10,24 @@ angular.module('heroesApp')
 
     $scope.noMatches = true;
 
-    requestFactory.matchMission().then(function(mission){
+    requestFactory.returnMissions().then(function(missions){
       $scope.noMatches = false;
-      $scope.mission = mission;
-      console.log(mission)
+      $scope.missions = missions;
+      console.log(missions)
     })
 
     $scope.industryKey = traitFactory.industryKey()
     $scope.serviceKey = traitFactory.serviceKey()
 
-    $scope.tag = function(accepted){
+    $scope.tag = function(missionId, accepted){
       var params = {
-        mission: $scope.mission._id
+        mission: missionId
         , accepted: accepted
       }
       console.log(accepted)
       requestFactory.tagMission(params).then(function(){
         console.log(params)
-        requestFactory.matchMission().then(function(newMatch){
+        requestFactory.returnMissions().then(function(newMatch){
           console.log(newMatch)
           $scope.noMatches = false;
           $scope.match = newMatch;

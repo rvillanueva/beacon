@@ -46,9 +46,9 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
-    var matchUser = function(id){
+    var returnUsers = function(id){
       var deferred = $q.defer();
-      $http.get('/api/missions/find/' + id).success(function(data){
+      $http.get('/api/missions/find/' + id) .success(function(data){
         deferred.resolve(data);
       }).error(function(err){
         deferred.reject(err)
@@ -58,7 +58,7 @@ angular.module('heroesApp')
 
     var tagUser = function(params){
       var deferred = $q.defer();
-      $http.post('/api/missions/tag/', params).success(function(data){
+      $http.post('/api/missions/tag/' + params.mission, params).success(function(data){
         deferred.resolve(data);
       }, function(err){
         deferred.reject(err)
@@ -66,9 +66,9 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
-    var matchMission = function(id){
+    var returnMissions = function(){
       var deferred = $q.defer();
-      $http.get('/api/missions/users/find/').success(function(data){
+      $http.get('/api/missions/users/find').success(function(data){
         deferred.resolve(data);
       }).error(function(err){
         deferred.reject(err)
@@ -114,9 +114,9 @@ angular.module('heroesApp')
         })
         return deferred.promise;
       },
-      matchUser: function (id) {
+      returnUsers: function (id) {
         var deferred = $q.defer()
-        matchUser(id).then(function(data){
+        returnUsers(id).then(function(data){
           deferred.resolve(data);
         }).catch(function(err) {
           console.log(err)
@@ -131,9 +131,9 @@ angular.module('heroesApp')
         })
         return deferred.promise;
       },
-      matchMission: function (id) {
+      returnMissions: function () {
         var deferred = $q.defer()
-        matchMission(id).then(function(data){
+        returnMissions().then(function(data){
           deferred.resolve(data);
         }).catch(function(err) {
           console.log(err)

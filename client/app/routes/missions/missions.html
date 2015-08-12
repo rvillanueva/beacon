@@ -7,7 +7,7 @@
       <a href="/missions/new">
       <div class="col-sm-4">
         <md-card class="card-primary card-music md-default-theme mission-card">
-          <md-card-content>
+          <md-card-content class="mission-card">
             <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Mission
           </md-card-content>
         </md-card>
@@ -16,9 +16,9 @@
       </a>
       <a href="/missions/view/{{mission._id}}" ng-repeat="(rKey, mission) in missions">
       <div class="col-sm-4">
-        <md-card class="card-primary card-music md-default-theme mission-card">
-          <md-card-content>
-            <h3>{{mission.title}}</h3>
+        <md-card class="card-primary card-music md-default-theme">
+          <md-card-content class="mission-card">
+            <strong>{{mission.title}}</strong>
             <p>
               {{mission.description}}<br>
               {{mission.times.submitted | date:'short'}}<br>
