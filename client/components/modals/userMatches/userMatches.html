@@ -3,7 +3,7 @@
   <h4 class="modal-title">Matches</h4>
 </div>
 <div class="modal-body">
-  <div ng-repeat="match in matches | filter: {'missionWants': true}">
+  <div ng-repeat="match in matches | filter: {'requested': true}">
   <md-card class="md-default-theme">
     <md-card-content>
       <div class="pull-left">

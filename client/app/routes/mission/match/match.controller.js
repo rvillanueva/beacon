@@ -4,7 +4,6 @@ angular.module('heroesApp')
   .controller('MatchToHeroesCtrl', function ($scope, requestFactory, $modal) {
 
     $scope.getUsers = function(){
-      console.log('getting users')
       requestFactory.returnUsers($scope.missionId).then(function(users){
         $scope.noUsers = false;
         $scope.users = users;
@@ -40,11 +39,7 @@ angular.module('heroesApp')
       });
 
       modalInstance.result.then(function (data) {
-        angular.forEach($scope.users, function(user, index){
-          if (user._id == data.user){
-            user.match.missionWants = data.missionWants;
-          }
-        })
+        $scope.getUsers();
       })
 
     }

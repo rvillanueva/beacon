@@ -7,24 +7,25 @@ angular.module('heroesApp')
 
     $scope.taggedIndex = {}
     $scope.matches = []
-
-  $scope.loadUsers = function(){
     requestFactory.getRequest($scope.missionId).then(function(data){
-      $scope.matches = []
       console.log(data)
       $scope.mission = data;
       if($scope.mission.requester == self._id){
         $scope.owner = true;
+      } else {
+        angular.forEach($scope.mission.requested, function(requested, index){
+          if(requested.user == self._id){
+            $scope.responder = true;
+          }
+        })
       }
       angular.forEach($scope.mission.matches, function(match, index){
-        if(match.userWants){
-          $scope.matches.push(match.userWants)
+        if(match.accepted){
+          $scope.matches.push(match.accepted)
         }
         $scope.taggedIndex[match.user] = match;
       })
     })
-  }
-    $scope.loadUsers();
 
     $scope.abort = function(id){
       var confirm = window.confirm("Are you sure you want to abort this mission? All your matches will be lost.");
@@ -54,7 +55,6 @@ angular.module('heroesApp')
         });
 
         modalInstance.result.then(function (data) {
-          $scope.loadUsers();
         })
 
       }
