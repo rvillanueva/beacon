@@ -18,6 +18,10 @@
           <p>
             {{user.title}}
           </p>
+          <br>
+          <div class="label label-success" ng-show="user.match.missionWants && !user.match.userWants"><span class="fa fa-star"></span>&nbsp;Interested</div>
+          <div class="label label-danger" ng-show="user.match.missionWants == false"><span class="fa fa-times"></span>&nbsp;Not Interested</div>
+          <div class="label label-warning" ng-show="user.match.missionWants && user.match.userWants"><span class="fa fa-exclamation"></span>&nbsp;Matched</div>
         </div>
       </md-card-content>
     </md-card>

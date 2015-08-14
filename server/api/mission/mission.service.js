@@ -1,5 +1,11 @@
 'use strict';
 
+var mailgun = require('mailgun-js')({
+  apiKey: process.env.MAILGUN_SECRET,
+  domain: process.env.MAILGUN_URL
+});
+
+
 /**
  *
  */
@@ -38,5 +44,32 @@ function score(user, mission){
   var matchScore = hoursScore + industryScore * 10 + serviceScore * 10;
   var finalScore = Math.floor(matchScore/maxPossible*100);
   return finalScore;
+}
+
+function notify(user, type){
+  var notice;
+  if (type == 'userRequested'){
+    notice = {
+      to: user.email,
+      from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
+      subject: 'IBM Beacon: You\'ve been requested!',
+      html: 'Looks like someone is interested in bringing you onto their team! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
+    };
+  } else if (type == "userMatched"){
+    notice = {
+      to: user.email,
+      from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
+      subject: 'IBM Beacon: You have a match!',
+      html: 'You\'ve found a match! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
+    };
+  }
+
+  mailgun.messages().send(notice, function(error, body) {
+    if (error) {
+      console.log(error)
+    }
+  });
+
+
 }
 exports.score = score;

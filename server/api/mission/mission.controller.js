@@ -13,11 +13,7 @@ var _ = require('lodash');
 var Mission = require('./mission.model');
 var User = require('./../user/user.model');
 var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-var mailgun = require('mailgun-js')({
-  apiKey: process.env.MAILGUN_SECRET,
-  domain: process.env.MAILGUN_URL
-});
-var Calculate = require('./mission.service');
+var Service = require('./mission.service');
 
 // Get list of requests
 exports.index = function(req, res) {
@@ -109,7 +105,7 @@ exports.pairUser = function(req, res) {
         // score based on hours needed
         // score based on industry and service area
         // score based on number of requests tagged
-        users[i].score = Calculate.score(mission, users[i])
+        users[i].score = Service.score(mission, users[i])
       }
       users.sort(function(a, b) {
         if (a.score < b.score) {
@@ -175,7 +171,7 @@ exports.returnUsers = function(req, res) {
         // score based on hours needed
         // score based on industry and service area
         // score based on number of requests tagged
-        users[i].score = Calculate.score(mission, users[i])
+        users[i].score = Service.score(mission, users[i])
       }
       // Sort based on score
       users.sort(function(a, b) {
@@ -216,7 +212,7 @@ exports.tagUser = function(req, res) {
 
   var missionId = req.body.mission;
   var userId = req.body.user;
-  var requested = req.body.requested;
+  var requested = req.body.missionWants;
   var missionUrl = process.env.DOMAIN + '/mission/' + missionId;
 
   Mission.findById(missionId, function(err, mission) {
@@ -227,47 +223,32 @@ exports.tagUser = function(req, res) {
       return res.send(404);
     }
 
-    // Add user to requested
-    var tagged = false;
+    // Add user to missionWants
+    var taggedNum = false;
     for (var i = 0; i < mission.matches.length; i++) {
       if (mission.matches[i].user == userId) {
-        tagged = true;
+        taggedNum = i;
       }
     }
     var notice;
     User.findById(userId, function(err, user) {
 
-      if (!tagged) {
+      if (!taggedNum) {
           var pushed = {
             user: userId
-            , requested: requested
+            , missionWants: requested
           }
           mission.matches.push(pushed)
-          mission.save();
-          console.log(mission)
-        // Notify user
-        notice = {
-          to: user.email,
-          from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
-          subject: 'IBM Beacon: You\'ve been requested!',
-          html: 'Looks like someone is interested in bringing you onto their team! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
-        };
-        return res.send(200, false)
       } else {
-        notice = {
-          to: user.email,
-          from: 'IBM Beacon HQ <donotreply@beacon.ibmthinklab.com>',
-          subject: 'IBM Beacon: You have a match!',
-          html: 'You\'ve found a match! To accept or reject the mission, <a href=\"' + missionUrl + '\">click here</a>/<br><br>Cheers,<br>The IBM Beacon Team'
-        };
-        return res.send(200, true)
+        mission.matches[taggedNum].missionWants = requested;
       }
-
-      mailgun.messages().send(notice, function(error, body) {
-        if (error) {
-          console.log(error)
-        }
+      mission.save(function(saved){
+        console.log(saved)
+        return res.send(200, requested)
       });
+
+
+
     })
 
   })
@@ -278,7 +259,7 @@ exports.tagUser = function(req, res) {
 
 // User responds to a request
 exports.tagMission = function(req, res) {
-  var accepted = req.body.accepted;
+  var userWants = req.body.userWants;
   Mission.findById(req.body.mission, function(err, mission) {
     if (err) {
       return handleError(res, err);
@@ -289,11 +270,11 @@ exports.tagMission = function(req, res) {
     var tagged = false;
     for (var i = 0; i < mission.matches.length; i++) {
       if (mission.matches[i].user == req.user._id) {
-        if (mission.matches[i].accepted == accepted) {
+        if (mission.matches[i].userWants == userWants) {
           return res.send(404, 'User has already responded to this request')
         } else {
           tagged = true;
-          mission.matches[i].accepted = accepted;
+          mission.matches[i].userWants = userWants;
           mission.matches[i].responded = new Date();
         }
       }
@@ -302,7 +283,7 @@ exports.tagMission = function(req, res) {
       var pushed = {
         user: req.user._id,
         responded: new Date(),
-        accepted: accepted
+        userWants: userWants
       }
       mission.matches.push(pushed)
     }
@@ -328,7 +309,7 @@ exports.returnMissions = function(req, res) {
       }
 
       for (var i = 0; i < missions.length; i++) {
-        missions[i].score = Calculate.score(user, missions[i]);
+        missions[i].score = Service.score(user, missions[i]);
       }
       missions.sort(function(a, b) {
         if (a.score < b.score) {

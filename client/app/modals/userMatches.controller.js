@@ -7,7 +7,7 @@ angular.module('heroesApp')
     requestFactory.getRequest(Mission).then(function(missionData){
       $scope.mission = missionData;
       angular.forEach($scope.mission.matches, function(match, index){
-        if(match.requested || match.accepted){
+        if(match.missionWants || match.userWants){
           userFactory.getUser(match.user).then(function(user){
             var pushed = match;
             pushed.user = user;

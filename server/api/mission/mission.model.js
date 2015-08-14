@@ -21,14 +21,14 @@ var MissionSchema = new Schema({
     submitted: Date,
     completed: Date
   },
-  responders: Array,
   matches: [
     {
       user: String,
-      accepted: Boolean,
-      requested: Boolean,
+      userWants: Boolean,
+      missionWants: Boolean,
       submitted: Date,
-      responded: Date
+      responded: Date,
+      chosen: Boolean
     }
   ]
 });

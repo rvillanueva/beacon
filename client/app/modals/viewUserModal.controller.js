@@ -8,15 +8,16 @@ angular.module('heroesApp')
       var params = {
         mission: $scope.mission._id
         , user: $scope.user._id
-        , requested: requested
+        , missionWants: requested
       }
       requestFactory.tagUser(params).then(function(isMatched){
-        if(isMatched){
-
-        } else {
-
-        }
       })
-      $modalInstance.dismiss($scope.user._id, requested);
+      var passed = {
+        user: $scope.user._id,
+        missionWants: requested
+      }
+      $modalInstance.close(passed);
+
+
     }
   });

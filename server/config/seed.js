@@ -34,11 +34,11 @@ Mission.find({}).remove(function() {
     open: true,
     matches: [{
       user: '55b7ba4f63262b52c8801235',
-      accepted: true
+      userWants: true
     },
     {
       user: '55b7ba4f63262b52c8801234',
-      requested: true
+      userWants: true
     }],
     responders: [],
     times: {
