@@ -7,48 +7,6 @@
 
 var mongoose = require('mongoose');
 var User = require('../api/user/user.model');
-var Mission = require('../api/mission/mission.model');
-
-Mission.find({}).remove(function() {
-  Mission.create({
-    requester: '55b7ba4f63262b52c8801234',
-    title: 'Unite the Avengers',
-    description: 'The Avengers are separated. You must unite them.',
-    open: true,
-    matches: [],
-    responders: [],
-    times: {
-      submitted: 'Thu Jul 02 2015 21:56:10 GMT-0400 (EDT)'
-    },
-    traits: {
-      hours: 5,
-      industry: "aerospace",
-      service: "ams"
-    }
-  }, {
-    __v: 0,
-    requester: '55b7b99763262b52c880bc39',
-    title: 'The Greatest Challenge',
-    description: 'Kill the Batman',
-    status: 'Open',
-    open: true,
-    matches: [{
-      user: '55b7ba4f63262b52c8801235',
-      userWants: true
-    },
-    {
-      user: '55b7ba4f63262b52c8801234',
-      userWants: true
-    }],
-    responders: [],
-    times: {
-      submitted: 'Tue Jul 28 2015 13:22:23 GMT-0400 (EDT)'
-    },
-    traits: {
-      hours: 1
-    }
-  })
-});
 
 User.find({}).remove(function() {
   User.create({

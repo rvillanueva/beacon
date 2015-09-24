@@ -18,14 +18,8 @@ var UserSchema = new Schema({
   salt: String,
   phone: String,
   pictureUrl: String,
-  verified: Boolean,
   verification: {
-    phone: {
-      number: String
-      , verified: Boolean
-      , code: Number
-    }
-    , email: {
+    email: {
       verified: Boolean
       , address: String
       , code: {

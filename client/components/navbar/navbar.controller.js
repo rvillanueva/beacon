@@ -5,10 +5,6 @@ angular.module('heroesApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
-    },
-    {
-      'title': 'My Missions',
-      'link': '/missions'
     }];
 
     $scope.isCollapsed = true;

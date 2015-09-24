@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-3 col-md-6">
-    <h3 class="centered">My Profile</h3>
+    <h3 class="centered">{{profile.name}}</h3>
     <br>
     <form class="form" name="form" ng-submit="register(request)" novalidate>
       <div class="form-group">
@@ -12,47 +12,33 @@
         </div>
         &nbsp;
       </div>
+
       <div class="form-group">
         <label for="hours" class="col-lg-3 control-label">Hours Available This Week</label>
         <div class="col-lg-9">
           <select class="form-control" id="select" ng-model="profile.traits.hours">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+            <option value="">Not available</option>
+            <option value="Temporary">A few hours</option>
+            <option value="Part">Part Time</option>
+            <option value="Full">Full Time</option>
           </select>
         </div>
         &nbsp;
       </div>
-      &nbsp;
-
       <div class="form-group">
-        <label for="select" class="col-lg-3 control-label">Preferred Industries</label>
+        <label for="hours" class="col-lg-3 control-label">Looking For</label>
         <div class="col-lg-9">
-           <select class="form-control" id="select" ng-model="test">
-             <option value="">Cross-Industry</option>
-             <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
-           </select>
+          <input type="text" class="form-control" maxchars="150">
         </div>
         &nbsp;
-       </div>
-       <div class="form-group">
-         <label for="select" class="col-lg-3 control-label">Preferred Service Area</label>
-         <div class="col-lg-9">
-            <select class="form-control" id="select" ng-model="test">
-              <option value="">Cross Service Area</option>
-              <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
-            </select>
-         </div>
-         &nbsp;
-       </div>
+      </div>
+      <div class="form-group">
+        <label for="hours" class="col-lg-3 control-label">About Me</label>
+        <div class="col-lg-9">
+          <textarea class="form-control" rows="5"></textarea>
+        </div>
+        &nbsp;
+      </div>
         <br>
         <div class="centered">
           <button class="btn btn-lg btn-primary" ng-click="save()">Save</button>

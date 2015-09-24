@@ -1,50 +1,14 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h2 class="centered">Available Heroes</h2>
-      <div class="panel panel-default" ng-repeat="user in users">
-        <div class="panel-body">
-          <img ng-src="{{user.pictureUrl}}" class="profile-pic pull-left">
-          <strong>{{user.name}}</strong>
-          <br> {{user.title}}
-          <br> Available
-          <strong>{{user.traits.hours}}</strong> hours/day this week
-        </div>
-      </div>
+    <div class="col-md-4" ng-repeat="user in users">
+      <div class="pull-left">
+      <img ng-src="{{user.pictureUrl}}" ng-show="user.pictureUrl">
+      &nbsp;
     </div>
-    <div class="col-md-6 centered">
-      <a href="/missions/new">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br> Find a Hero
-          <br>
-        </button>
-      </a>
-      <br>
-      <br>
-      <a href="/match/">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br> Find a Mission
-          <br>
-        </button>
-      </a>
-      <br>
-      <br>
-      <a href="/me">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br> Update My Profile
-          <br>
-        </button>
-      </a>
+      <strong>{{user.name}}</strong>
+      <br> {{user.title}}
+    </div>
     </div>
   </div>
 
