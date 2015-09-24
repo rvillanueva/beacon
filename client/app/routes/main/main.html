@@ -1,16 +1,18 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<br>
 <div class="container">
-  <div class="row">
+  <div class="row list-group">
     <div class="col-md-4" ng-repeat="user in users">
-      <div class="pull-left">
-      <img ng-src="{{user.pictureUrl}}" ng-show="user.pictureUrl">
-      &nbsp;
-    </div>
-      <strong>{{user.name}}</strong>
-      <br> {{user.title}}
-    </div>
+      <a ng-href="/profile/view/{{user._id}}" class="list-group-item user-card">
+        <div class="pull-left">
+          <img ng-src="{{user.pictureUrl}}" ng-show="user.pictureUrl"> &nbsp;
+        </div>
+        <strong>{{user.name}}</strong>
+        <br> {{user.title}}
+      </a>
     </div>
   </div>
+</div>
 
 </div>
 <div ng-include="'components/footer/footer.html'"></div>

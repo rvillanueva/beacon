@@ -1,0 +1,81 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="visit-cover" ng-class="coverClass">
+  <div class="visit-cover-gradient">
+  </div>
+  <div class="visit-container-container">
+    <div class="container">
+      <div>
+        <div class="visit-header">
+          <div class="visit-logo-wrapper">
+            <img class="img-responsive visit-logo" src="{{profile.pictureUrl}}">
+          </div>
+          <div class="visit-title">
+            {{profile.name}}
+          </div>
+        </div>
+        <!--START Visit cover buttons-->
+        <div class="visit-cover-buttons">
+          <span class="dropdown">
+            <button class="dropdown-toggle btn btn-lg btn-success" ng-class="{'btn-success':(agenda.request.status == 'Confirmed'), 'btn-default': (agenda.request.status == 'Complete'), 'btn-warning': (agenda.request.status == 'Canceled' || agenda.request.status == 'Postponed' || agenda.request.status == 'Declined'), }"
+            type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
+              <span>Test</span>
+              &nbsp;
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="statusMenu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="status(agenda._id, 'Pending')">Full Time</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="status(agenda._id, 'Confirmed')">Part Time</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="status(agenda._id, 'Canceled')">Only a few hours</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="status(agenda._id, 'Postponed')">Not available</a></li>
+            </ul>
+          </span>
+        </div>
+        <!--END Visit Cover Buttons-->
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <span class="pull-right">
+            <button class="btn btn-sm btn-default" ng-click="edit('details')"><i class="fa fa-edit"></i></button>
+          </span>
+          <div class="form-group" ng-show="editing.details == true">
+            <label for="select" class="col-lg-12 control-label">Role</label>
+            <div class="col-lg-12">
+              <input class="form-control" id="select" ng-model="profile.title" maxchars="70">
+            </div>
+            &nbsp;
+          </div>
+          <div class="centered">
+            <a ng-href="{{profile.linkedin.publicProfileUrl}}" target="_blank">
+              <button class="dropdown-toggle btn btn-lg btn-primary" type="button">
+                LinkedIn
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Looking For</h4>
+          {{profile.lookingFor}}
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>About Me</h4>
+          {{profile.about}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

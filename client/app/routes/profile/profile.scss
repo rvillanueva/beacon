@@ -1,0 +1,184 @@
+.big-icon{
+  font-size: 2em;
+}
+
+.visit-cover {
+  height: 300px;
+  background-size: cover;
+  position: relative;
+  background-position: center;
+  margin-bottom: 60px;
+}
+
+.visit-generic {
+  background-image: url("/assets/images/covers/blueprint.jpg");
+}
+
+.visit-aerospace {
+  background-image: url("/assets/images/covers/Aerospace.jpg");
+}
+
+.visit-automotive {
+  background-image: url("/assets/images/covers/Automotive.jpg");
+}
+
+.visit-banking {
+  background-image: url("/assets/images/covers/Banking.jpg");
+}
+
+.visit-central-government {
+  background-image: url("/assets/images/covers/Central-Federal-Government.jpg");
+}
+
+.visit-chemicals {
+  background-image: url("/assets/images/covers/Chemicals-Petroleum.jpg");
+}
+
+.visit-computer {
+  background-image: url("/assets/images/covers/Computer-Service.jpg");
+}
+
+.visit-consumer {
+  background-image: url("/assets/images/covers/Consumer-Products.jpg");
+}
+
+.visit-education {
+  background-image: url("/assets/images/covers/Education.jpg");
+}
+
+.visit-electronics {
+  background-image: url("/assets/images/covers/Electronics.jpg");
+}
+
+.visit-energy {
+  background-image: url("/assets/images/covers/Energy-Utilities.jpg");
+}
+
+.visit-finance {
+  background-image: url("/assets/images/covers/Financial-Markets.jpg");
+}
+
+.visit-state {
+  background-image: url("/assets/images/covers/Government-State.jpg");
+}
+
+.visit-health {
+  background-image: url("/assets/images/covers/Health-Pharma.jpg");
+}
+
+.visit-industrial {
+  background-image: url("/assets/images/covers/Industrial-Products.jpg");
+}
+
+.visit-insurance {
+  background-image: url("/assets/images/covers/Insurance.jpg");
+}
+
+.visit-internal {
+  background-image: url("/assets/images/covers/Internal-Events.jpg");
+}
+
+.visit-life {
+  background-image: url("/assets/images/covers/Life-Sciences.jpg");
+}
+
+.visit-media {
+  background-image: url("/assets/images/covers/Media-Entertainment.jpg");
+}
+
+.visit-professional {
+  background-image: url("/assets/images/covers/Professional-Services.jpg");
+}
+
+.visit-telecom {
+  background-image: url("/assets/images/covers/Telecommunications.jpg");
+}
+
+.visit-travel {
+  background-image: url("/assets/images/covers/Travel-Transportation.jpg");
+}
+
+
+.visit-cover-gradient {
+  background: rgba(255,255,255,0);
+  background: -moz-linear-gradient(top, rgba(255,255,255,0) 69%, rgba(0,0,0,0.65) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(69%, rgba(255,255,255,0)), color-stop(100%, rgba(0,0,0,0.65)));
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0) 69%, rgba(0,0,0,0.65) 100%);
+  background: -o-linear-gradient(top, rgba(255,255,255,0) 69%, rgba(0,0,0,0.65) 100%);
+  background: -ms-linear-gradient(top, rgba(255,255,255,0) 69%, rgba(0,0,0,0.65) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 69%, rgba(0,0,0,0.65) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000', GradientType=0 );
+  height: 100%;
+  display: block;
+}
+
+.visit-container-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.visit-cover .container {
+  bottom: 0;
+  position: relative;
+  height: 100%;
+}
+
+.visit-cover-buttons {
+  text-align: right;
+  padding-right: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  index: 999;
+}
+
+
+.visit-header {
+  color: #FFFFFF;
+  font-weight: 600;
+  position: absolute;
+  bottom: -40px;
+  display: inline;
+}
+
+.visit-logo {
+  width: 160px;
+  height: 160px;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 4px;
+  border-color: #FFFFFF;
+}
+
+.visit-logo-wrapper {
+  background: rgba(0, 0, 0, .3);
+  padding: 1px;
+  display: block;
+  bottom: 0;
+  border-radius: 3px;
+  position: absolute;
+
+}
+
+.visit-title {
+  display: inline-block;
+  bottom: 50px;
+  font-size: 2em;
+  left: 180px;
+  width: 500px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+@media screen and (max-width: 764px) {
+    .visit-cover-buttons {
+        top: 20px;
+    }
+
+    .visit-title {
+      font-size: 1.4em;
+    }
+}

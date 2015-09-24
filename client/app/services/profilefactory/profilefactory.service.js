@@ -15,6 +15,16 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
+    var get = function(id) {
+      var deferred = $q.defer();
+      $http.get('/api/users/' + id).success(function(data) {
+        deferred.resolve(data);
+      }).error(function(err) {
+        deferred.reject(err)
+      })
+      return deferred.promise;
+    }
+
     var saveProfile = function(profile) {
       var deferred = $q.defer();
       $http.patch('/api/users/me', profile).success(function(data) {
@@ -25,29 +35,9 @@ angular.module('heroesApp')
       return deferred.promise;
     }
 
-    var sendPhone = function(phone) {
-      var deferred = $q.defer();
-      $http.post('/api/verify/phone', phone).success(function(data) {
-        deferred.resolve(data);
-      }, function(err) {
-        deferred.reject(err)
-      })
-      return deferred.promise;
-    }
-
     var sendEmail = function(email) {
       var deferred = $q.defer();
       $http.post('/api/verify/email', email).success(function(data) {
-        deferred.resolve(data);
-      }, function(err) {
-        deferred.reject(err)
-      })
-      return deferred.promise;
-    }
-
-    var verifyPhone = function(code) {
-      var deferred = $q.defer();
-      $http.post('/api/verify/phone/' + code).success(function(data) {
         deferred.resolve(data);
       }, function(err) {
         deferred.reject(err)
@@ -70,6 +60,13 @@ angular.module('heroesApp')
       me: function() {
         var deferred = $q.defer()
         me().then(function(data) {
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      get: function(id) {
+        var deferred = $q.defer()
+        get(id).then(function(data) {
           deferred.resolve(data);
         })
         return deferred.promise;

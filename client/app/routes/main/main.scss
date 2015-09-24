@@ -33,3 +33,12 @@
   height: 70px;
   padding-right: 20px;
 }
+
+.user-card {
+  height: 200px;
+}
+
+.user-card:hover {
+  background-color: #03897D !important;
+  color: #FFF !important;;
+}

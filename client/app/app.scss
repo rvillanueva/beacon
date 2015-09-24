@@ -27,13 +27,17 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   overflow:scroll;
 }
 
+.navbar {
+  margin-bottom: 0 !important;
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
 @import 'admin/questions/questions.scss';
 @import 'routes/main/main.scss';
-@import 'routes/me/me.scss';
+@import 'routes/profile/profile.scss';
 @import 'routes/verify/verify.scss';
 @import 'routes/verifyEmail/verifyEmail.scss';
 @import 'modal/modal.scss';

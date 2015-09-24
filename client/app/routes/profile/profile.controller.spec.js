@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: MeCtrl', function () {
+describe('Controller: ProfileCtrl', function () {
 
   // load the controller's module
   beforeEach(module('heroesApp'));
