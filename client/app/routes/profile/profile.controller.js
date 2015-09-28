@@ -10,8 +10,21 @@ angular.module('heroesApp')
       about: false
     }
 
+    $scope.fields = {
+      details: {
+        title: ''
+      },
+      seeking: '',
+      about: ''
+    }
+
     $scope.edit = function(field){
-      $scope.editing[field] = true
+      $scope.editing[field] = true;
+      if(field == 'details'){
+
+      } else {
+        $scope.fields[field] = $scope.profile[field];
+      }
     }
 
     if($routeParams.id){
@@ -25,10 +38,12 @@ angular.module('heroesApp')
         $scope.isMe = true;
       })
     }
-    $scope.save = function(){
+    $scope.save = function(field){
+      if('details'){
+        $scope.profile.
+      }
       profileFactory.saveProfile($scope.profile).then(function(data){
         $location.path('/')
       })
-
     }
   });

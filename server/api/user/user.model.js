@@ -30,15 +30,19 @@ var UserSchema = new Schema({
     }
   },
   lastLogin: Date,
-  ready: Boolean,
   title: String,
   linkedin: {},
   traits: {
-    industry: {},
-    service: {},
-    hours: Number,
-    skills: {},
-    availableOn: Date
+    availableOn: Date,
+    availability: String,
+    tags: Array,
+    managers: Array,
+    seeking: String,
+    about: String,
+    industry: {}, // deprecated
+    service: {}, // deprecated
+    hours: Number, // deprecated
+    skills: {} // deprecated
   }
 });
 
