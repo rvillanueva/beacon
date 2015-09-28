@@ -15,20 +15,22 @@
         </div>
         <!--START Visit cover buttons-->
         <div class="visit-cover-buttons">
-          <span class="dropdown">
-            <button class="dropdown-toggle btn btn-lg" ng-class="{'btn-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'), 'btn-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'), 'btn-warning':profile.traits.availability == 'Temporary'}"
+          <div class="dropdown">
+            <button class="dropdown-toggle btn-width-medium md-raised md-button md-default-theme" ng-class="{'md-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'), 'md-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'), 'md-warning':profile.traits.availability == 'Temporary'}"
             type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
               &nbsp;&nbsp;<span>{{profile.traits.availability || "Not Available"}}</span>
               &nbsp;
               <span class="caret" ng-if="isOwner"></span>&nbsp;
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="statusMenu" ng-show="isOwner">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="updateAvailability('Full Time')">Full Time</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="updateAvailability('Part Time')">Part Time</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="updateAvailability('Temporary')">Only a few hours</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="updateAvailability('Not Available')">Not available</a></li>
+            <ul class="dropdown-menu nav-button panel panel-default nav-profile" role="menu" aria-labelledby="statusMenu" ng-show="isOwner">
+              <span class="list-group">
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Full Time')">Full Time</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Part Time')">Part Time</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Temporary')">Only a few hours</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Not Available')">Not available</li>
+              </span>
             </ul>
-          </span>
+          </div>
         </div>
         <!--END Visit Cover Buttons-->
 
@@ -56,7 +58,7 @@
           <div class="centered row">
             <br>
             <a ng-href="{{profile.linkedin.publicProfileUrl}}" target="_blank">
-              <button class="dropdown-toggle btn btn-lg btn-primary" type="button">
+              <button class="dropdown-toggle btn-width-large md-raised md-button md-default-theme md-primary" type="button">
                 LinkedIn
               </button>
             </a>
@@ -67,7 +69,7 @@
         <div class="panel-body">
           <h4>Tags</h4>
           <form ng-submit="addTag($event)" ng-show="isOwner">
-            <input ng-model="newTag">&nbsp;<button type="submit" class="btn btn-primary btn-md"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Tag</button>
+            <input ng-model="newTag">&nbsp;<button type="submit" class="md-primary md-button md-default-theme"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Tag</button>
             <br><br>
           </form>
           <span ng-repeat="tag in profile.traits.tags">

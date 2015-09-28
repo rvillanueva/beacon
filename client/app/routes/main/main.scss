@@ -42,3 +42,29 @@
   background-color: #03897D !important;
   color: #FFF !important;;
 }
+
+.user-card .name-text {
+  text-transform: uppercase;
+  font-size: 1.4em;
+  font-weight: 200;
+}
+
+.user-card .title-muted{
+  font-size: .9em;
+  color: #999999;
+}
+
+.label-spaced {
+  line-height:2em;
+}
+
+.dropdown-list-item {
+  border: 0;
+}
+
+.dropdown-list-item:hover {
+  background-color: rgb(232, 232, 232);
+  color: #000000;
+  text-decoration: none !important;
+  cursor: pointer;
+}
