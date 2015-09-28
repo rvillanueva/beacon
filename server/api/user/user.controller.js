@@ -5,7 +5,6 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
-var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -144,49 +143,6 @@ exports.updateProfile = function(req, res, next) {
 };
 
 
-
-// Send verification text
-exports.verifyPhone = function(req, res) {
-  console.log(req.body)
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) {
-    console.log(user)
-    if (err) return next(err);
-    if (!user) {
-      return res.json(401);
-    } else {
-      twilio.sendMessage({
-
-          to: req.body.phone, // Any number Twilio can deliver to
-          from: process.env.TWILIO_NUMBER, // A number you bought from Twilio and can use for outbound communication
-          body: 'Welcome to IBM Heroes! To verify your phone number, please reply to this text with the number of hours you are available to respond to requests this week (0-50).' // body of the SMS message
-
-      }, function(err, responseData) {
-
-          if (!err) { // "err" is an error received during the request, if any
-              console.log(responseData.from);
-              console.log(responseData.body);
-
-          }
-      });
-      if(!user.verification) {
-        user.verification = {
-          phone: req.body.phone
-        }
-      } else {
-        user.verification.phone = req.body
-      }
-
-      user.save(function(err) {
-        if (err) return validationError(res, err);
-        res.send(200);
-      });
-    }
-  });
-
-};
 
 /**
  * Authentication callback

@@ -16,11 +16,11 @@
         <!--START Visit cover buttons-->
         <div class="visit-cover-buttons">
           <span class="dropdown">
-            <button class="dropdown-toggle btn btn-lg" ng-class="{'btn-success':profile.traits.available == 'Full'}"
+            <button class="dropdown-toggle btn btn-lg" ng-class="{'btn-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'), 'btn-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'), 'btn-warning':profile.traits.availability == 'Temporary'}"
             type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
-              <span>{{profile.traits.availability || "Not Available"}}</span>
+              &nbsp;&nbsp;<span>{{profile.traits.availability || "Not Available"}}</span>
               &nbsp;
-              <span class="caret" ng-if="isOwner"></span>
+              <span class="caret" ng-if="isOwner"></span>&nbsp;
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="statusMenu" ng-show="isOwner">
               <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="updateAvailability('Full Time')">Full Time</a></li>
@@ -90,7 +90,7 @@
         <div class="panel-body">
           <h4>Looking For</h4>
           <a href="#" editable-textarea="profile.traits.seeking" e-rows="7" e-cols="40" ng-show="isOwner" onaftersave="save()">
-            <pre>{{ profile.traits.seeking || '[No description]' }}</pre>
+            <span class="whitespaced">{{ profile.traits.seeking || '[No description]' }}</span>
           </a>
           <span ng-show="!isOwner">
             {{profile.about}}
@@ -101,13 +101,23 @@
         <div class="panel-body">
           <h4>About Me</h4>
           <a href="#" editable-textarea="profile.traits.about" e-rows="7" e-cols="40" ng-show="isOwner" onaftersave="save()">
-            <pre>{{ profile.traits.about || '[No description]' }}</pre>
+            <span class="whitespaced">{{ profile.traits.about || '[No description]' }}</span>
           </a>
           <span ng-show="!isOwner">
             {{profile.about}}
           </span>
         </div>
       </div>
+      <div class="panel panel-default" ng-show="profile.linkedin.positions.values.length > 0">
+        <div class="panel-body">
+          <h4>
+            <span ng-show="profile.linkedin.positions.values[0].isCurrent == true">Current</span><span ng-show="profile.linkedin.positions.values[0].isCurrent == false">Last</span>&nbsp;Position</h4>
+            <strong>{{profile.linkedin.positions.values[0].title}} @ {{profile.linkedin.positions.values[0].company.name}}</strong>
+            <br>
+            <div class="whitespaced">{{profile.linkedin.positions.values[0].summary}}</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

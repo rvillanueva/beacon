@@ -11,7 +11,6 @@
 
 var _ = require('lodash');
 var User = require('./../user/user.model');
-var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 var mailgun = require('mailgun-js')({
   apiKey: process.env.MAILGUN_SECRET,
   domain: process.env.MAILGUN_URL

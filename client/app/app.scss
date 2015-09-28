@@ -31,6 +31,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   margin-bottom: 0 !important;
 }
 
+.whitespaced {
+  white-space: pre-wrap;
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
