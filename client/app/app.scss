@@ -35,6 +35,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   white-space: pre-wrap;
 }
 
+.navbar-brand-image {
+  margin-top: 8px;
+  margin-right: 20px
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
