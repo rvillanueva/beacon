@@ -1,49 +1,65 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('ProfileCtrl', function ($scope, profileFactory, $location, $routeParams) {
+  .controller('ProfileCtrl', function ($scope, User, profileFactory, $location, $routeParams) {
     $scope.coverClass = 'visit-generic'
+    $scope.newTag = '';
 
-    $scope.editing = {
-      details: false,
-      seeking: false,
-      about: false
-    }
-
-    $scope.fields = {
-      details: {
-        title: ''
-      },
-      seeking: '',
-      about: ''
-    }
-
-    $scope.edit = function(field){
-      $scope.editing[field] = true;
-      if(field == 'details'){
-
-      } else {
-        $scope.fields[field] = $scope.profile[field];
-      }
+    $scope.checkOwner = function(){
+      User.get(function(me){
+        if($scope.profile._id == me._id){
+          $scope.isOwner = true;
+        } else {
+          $scope.isOwner = false;
+        }
+      })
     }
 
     if($routeParams.id){
       profileFactory.get($routeParams.id).then(function(profile){
         $scope.profile = profile;
-        //Need to check if owner
+        $scope.checkOwner();
       })
     } else {
       profileFactory.me().then(function(me){
         $scope.profile = me;
-        $scope.isMe = true;
+        $scope.checkOwner();
       })
     }
-    $scope.save = function(field){
-      if('details'){
-        $scope.profile.
+
+
+    $scope.addTag = function(event){
+      if($scope.newTag.length > 0){
+        var pushed = {
+          tag: $scope.newTag
+        }
+        if(!$scope.profile.traits){
+          $scope.profile.traits = {}
+        }
+        if(!$scope.profile.traits.tags){
+          $scope.profile.traits.tags = []
+        }
+        $scope.profile.traits.tags.push(pushed);
+        $scope.newTag = '';
       }
+      $scope.save();
+      event.preventDefault;
+      event.stopPropagation;
+    }
+
+    $scope.removeTag = function(index){
+      $scope.profile.traits.tags.splice(index, 1);
+      $scope.save();
+    }
+
+    $scope.updateAvailability = function(status){
+      $scope.profile.traits.availability = status;
+      $scope.save();
+    }
+
+    $scope.save = function(){
       profileFactory.saveProfile($scope.profile).then(function(data){
-        $location.path('/')
+        console.log('Saved!')
       })
     }
   });

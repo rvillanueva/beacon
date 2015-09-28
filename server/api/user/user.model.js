@@ -35,7 +35,11 @@ var UserSchema = new Schema({
   traits: {
     availableOn: Date,
     availability: String,
-    tags: Array,
+    tags: [
+      {
+        tag: String
+      }
+    ],
     managers: Array,
     seeking: String,
     about: String,
@@ -65,6 +69,7 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      '_id': this._id,
       'name': this.name,
       'role': this.role,
       'pictureUrl': this.pictureUrl,

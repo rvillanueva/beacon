@@ -7,7 +7,8 @@ angular.module('heroesApp', [
     'ngRoute',
     'btford.socket-io',
     'ui.bootstrap',
-    'ngMaterial'
+    'ngMaterial',
+    'xeditable'
   ])
   .config(function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

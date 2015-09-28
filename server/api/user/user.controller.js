@@ -127,6 +127,14 @@ exports.updateProfile = function(req, res, next) {
       return res.json(401);
     } else {
       var updated = _.merge(user, req.body);
+      if(req.body.traits){
+        if(!updated.traits){
+          updated.traits = {}
+        }
+        if(req.body.traits.tags && req.body.traits.tags !== updated.traits.tags){
+          updated.traits.tags = req.body.traits.tags;
+        }
+      }
       updated.save(function(err) {
         if (err) return validationError(res, err);
         res.send(200);
