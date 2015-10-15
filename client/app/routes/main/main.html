@@ -1,52 +1,61 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<br>
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h2 class="centered">Available Heroes</h2>
-      <div class="panel panel-default" ng-repeat="user in users">
-        <div class="panel-body">
-          <img ng-src="{{user.pictureUrl}}" class="profile-pic pull-left">
-          <strong>{{user.name}}</strong>
-          <br> {{user.title}}
-          <br> Available
-          <strong>{{user.traits.hours}}</strong> hours/day this week
-        </div>
-      </div>
+    <div class="col-md-12">
+      <strong>Availability:&nbsp;</strong>
+      <select ng-model="availability">
+        <option value="Available">All Available</option>
+        <option value="Full Time">Full Time</option>
+        <option value="Part Time">Part Time</option>
+        <option value="Temporary">Temporary</option>
+        <option value="Not Available">Not Available</option>
+        <option value="All">All</option>
+      </select>
+      &nbsp;&nbsp;&nbsp;
+      <strong>Tag:&nbsp;</strong><input ng-model="searchedTag">
     </div>
-    <div class="col-md-6 centered">
-      <a href="/missions/new">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
+    <br>&nbsp;
+  </div>
+  <div class="row">
+    <div class="centered" ng-if="filtered.length == 0">
+      <br><br>
+      Sorry, it looks like there aren't any users available.
+    </div>
+    <div class="col-md-4" ng-repeat="user in filtered = (users | userFilter:availability:searchedTag)" ng-show="filtered.length > 0">
+      <a ng-href="/profile/view/{{user._id}}" class="list-group-item user-card">
+        <div class="centered">
+          <div>
+            <img ng-src="{{user.pictureUrl}}" ng-show="user.pictureUrl" class="img-circle">
+            <img src="/assets/images/noUser.png" ng-show="!user.pictureUrl" class="img-circle">
+            <br>
+            <br>
+          </div>
+          <div class="name-text">{{user.name}}</div>
+          <div class="title-muted">{{user.title}}</div>
           <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
+          <span class="label label-spaced" ng-class="{
+            'label-danger':(user.traits.availability == 'Not Available' || !user.traits.availability),
+            'label-primary':user.traits.availability !== 'Not Available'
+          }">
+            {{user.traits.availability || "Not Available"}}
+          </span>
           <br>
-          <br> Find a Hero
           <br>
-        </button>
+          <br>
+          <div>
+            <span ng-repeat="tag in user.traits.tags | limitTo: 6">
+              <span class="label label-default label-spaced">{{tag.tag}}</span>&nbsp;
+            </span>
+          </div>
+          <br>
+
+        </div>
       </a>
-      <br>
-      <br>
-      <a href="/match/">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br> Find a Mission
-          <br>
-        </button>
-      </a>
-      <br>
-      <br>
-      <a href="/me">
-        <button class="centered btn btn-primary btn-md" style="width: 50%">
-          <br>
-          <span class="glyphicon glyphicon-flash gigantic"></span>
-          <br>
-          <br> Update My Profile
-          <br>
-        </button>
-      </a>
+      <br>&nbsp;
     </div>
   </div>
+</div>
 
 </div>
 <div ng-include="'components/footer/footer.html'"></div>

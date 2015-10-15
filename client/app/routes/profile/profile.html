@@ -1,8 +1,137 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-    This is the profile view.
+<div class="visit-cover" ng-class="coverClass">
+  <div class="visit-cover-gradient">
+  </div>
+  <div class="visit-container-container">
+    <div class="container">
+      <div>
+        <div class="visit-header">
+          <div class="visit-logo-wrapper">
+            <img class="img-responsive visit-logo" src="{{profile.pictureUrl}}">
+          </div>
+          <div class="visit-title">
+            {{profile.name}}
+          </div>
+        </div>
+        <!--START Visit cover buttons-->
+        <div class="visit-cover-buttons">
+          <div class="dropdown" data-intro="Update your availability regularly so projects can find you. If you do not update your availability, it will default to Not Available." data-position="top">
+            <button class="dropdown-toggle btn-width-medium md-raised md-button md-default-theme" ng-class="
+            { 'md-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'),
+              'md-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'),
+              'md-warning':profile.traits.availability == 'Temporary'}" type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
+              &nbsp;&nbsp;
+              <span>{{profile.traits.availability || "Not Available"}}</span>
+              &nbsp;
+              <span class="caret" ng-if="isOwner"></span>&nbsp;
+            </button>
+            <ul class="dropdown-menu nav-button panel panel-default nav-profile" role="menu" aria-labelledby="statusMenu" ng-show="isOwner">
+              <span class="list-group">
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Full Time')">Full Time</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Part Time')">Part Time</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Temporary')">Only a few hours</li>
+                <li role="presentation" class="list-group-item dropdown-list-item" ng-click="updateAvailability('Not Available')">Not available</li>
+              </span>
+            </ul>
+          </div>
+        </div>
+        <!--END Visit Cover Buttons-->
+
+      </div>
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" data-intro="Set your role information and create tags to help others find you based on your skills." data-position="top">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group row" ng-show="profile.title || isOwner">
+            <div class="col-md-12" ng-show="profile.email">
+              <strong>Email:&nbsp;</strong>
+              <a href="mailto:{{profile.email}}">{{profile.email}}</a>
+            </div>
+            <div class="col-md-12">
+              <strong>Role</strong>
+              <br>
+              <a href="#" editable-text="profile.title" ng-show="isOwner" onaftersave="save()">
+                {{profile.title || "[No title]"}}
+              </a>
+              <span ng-show="!isOwner">
+                {{profile.title}}
+              </span>
+            </div>
+          </div>
+          <div class="centered row">
+            <br>
+            <a ng-href="{{profile.linkedin.publicProfileUrl}}" target="_blank">
+              <button class="dropdown-toggle btn-width-large md-raised md-button md-default-theme md-primary" type="button">
+                LinkedIn
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Tags</h4>
+          <form ng-submit="addTag($event)" ng-show="isOwner">
+            <input ng-model="newTag">&nbsp;
+            <button type="submit" class="md-primary md-button md-default-theme"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Tag</button>
+            <br>
+            <br>
+          </form>
+          <span ng-repeat="tag in profile.traits.tags">
+            <span class="label label-default">
+              {{tag.tag}}
+              <span ng-show="isOwner">
+                &nbsp;
+                <a href="#" class="trash" ng-click="removeTag($index)">
+                  x
+                </a>
+              </span>
+            </span>
+            &nbsp;
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" data-intro="Tell others what type of projects you\'re looking for and why they should choose you." data-position="top">
+      <div class="panel panel-default" ng-show="profile.seeking || isOwner">
+        <div class="panel-body">
+          <h4>Looking For</h4>
+          <a href="#" editable-textarea="profile.traits.seeking" e-rows="7" e-cols="40" ng-show="isOwner" onaftersave="save()">
+            <span class="whitespaced">{{ profile.traits.seeking || '[No description]' }}</span>
+          </a>
+          <span ng-show="!isOwner">
+            {{profile.about}}
+          </span>
+        </div>
+      </div>
+      <div class="panel panel-default" ng-show="profile.about || isOwner">
+        <div class="panel-body">
+          <h4>About Me</h4>
+          <a href="#" editable-textarea="profile.traits.about" e-rows="7" e-cols="40" ng-show="isOwner" onaftersave="save()">
+            <span class="whitespaced">{{ profile.traits.about || '[No description]' }}</span>
+          </a>
+          <span ng-show="!isOwner">
+            {{profile.about}}
+          </span>
+        </div>
+      </div>
+      <div class="panel panel-default" ng-show="profile.linkedin.positions.values.length > 0">
+        <div class="panel-body">
+          <h4>
+            <span ng-show="profile.linkedin.positions.values[0].isCurrent == true">Current</span>
+            <span ng-show="profile.linkedin.positions.values[0].isCurrent == false">Last</span>&nbsp;Position</h4>
+          <strong>{{profile.linkedin.positions.values[0].title}} @ {{profile.linkedin.positions.values[0].company.name}}</strong>
+          <br>
+          <div class="whitespaced">{{profile.linkedin.positions.values[0].summary}}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

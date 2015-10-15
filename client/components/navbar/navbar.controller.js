@@ -2,14 +2,6 @@
 
 angular.module('heroesApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
-    $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
-    },
-    {
-      'title': 'My Missions',
-      'link': '/missions'
-    }];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;

@@ -15,5 +15,15 @@ angular.module('heroesApp')
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsCtrl',
         authenticate: true
+      })
+      .when('/verify', {
+        templateUrl: 'app/account/verify/verify.html',
+        controller: 'VerifyCtrl',
+        authenticate: true,
+        reloadOnSearch: false
+      })
+      .when('/verify/email/:code', {
+        templateUrl: 'app/account/verify/code/code.html',
+        controller: 'VerifyCodeCtrl'
       });
   });

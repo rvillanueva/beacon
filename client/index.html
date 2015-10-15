@@ -14,12 +14,14 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+      <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/styles/bootstrap-theme.min.css">
+      <link rel="stylesheet" href="app/styles/chardinjs.css">
       <link rel="stylesheet" href="app/styles/main.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -40,16 +42,17 @@
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-resource/angular-resource.js"></script>
-      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-      <script src="bower_components/angular-route/angular-route.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-      <script src="bower_components/angular-socket-io/socket.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-animate/angular-animate.js"></script>
       <script src="bower_components/angular-aria/angular-aria.js"></script>
       <script src="bower_components/angular-material/angular-material.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-socket-io/socket.js"></script>
+      <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+      <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -61,34 +64,20 @@
           <script src="app/account/login/login.controller.js"></script>
           <script src="app/account/settings/settings.controller.js"></script>
           <script src="app/account/signup/signup.controller.js"></script>
+          <script src="app/account/verify/code/code.controller.js"></script>
+          <script src="app/account/verify/verify.controller.js"></script>
           <script src="app/admin/admin.controller.js"></script>
           <script src="app/admin/admin.js"></script>
-          <script src="app/admin/questions/questions.controller.js"></script>
-          <script src="app/admin/questions/questions.js"></script>
+          <script src="app/filters/user/user.filter.js"></script>
           <script src="app/modals/userMatches.controller.js"></script>
-          <script src="app/modals/viewUserModal.controller.js"></script>
           <script src="app/routes/main/main.controller.js"></script>
           <script src="app/routes/main/main.js"></script>
-          <script src="app/routes/match/match.controller.js"></script>
-          <script src="app/routes/match/match.js"></script>
-          <script src="app/routes/me/me.controller.js"></script>
-          <script src="app/routes/me/me.js"></script>
-          <script src="app/routes/mission/match/match.controller.js"></script>
-          <script src="app/routes/mission/mission.controller.js"></script>
-          <script src="app/routes/mission/mission.js"></script>
-          <script src="app/routes/missions/missions.controller.js"></script>
-          <script src="app/routes/missions/missions.js"></script>
-          <script src="app/routes/newMission/newMission.controller.js"></script>
-          <script src="app/routes/newMission/newMission.js"></script>
           <script src="app/routes/profile/profile.controller.js"></script>
           <script src="app/routes/profile/profile.js"></script>
-          <script src="app/routes/verify/verify.controller.js"></script>
-          <script src="app/routes/verify/verify.js"></script>
-          <script src="app/routes/verifyEmail/verifyEmail.controller.js"></script>
-          <script src="app/routes/verifyEmail/verifyEmail.js"></script>
+          <script src="app/scripts/angular-help-overlay.min.js"></script>
+          <script src="app/scripts/chardinjs.min.js"></script>
           <script src="app/services/profilefactory/profilefactory.service.js"></script>
           <script src="app/services/requestfactory/requestfactory.service.js"></script>
-          <script src="app/services/traitfactory/traitfactory.service.js"></script>
           <script src="app/services/userfactory/userfactory.service.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>

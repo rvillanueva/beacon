@@ -7,7 +7,9 @@ angular.module('heroesApp', [
     'ngRoute',
     'btford.socket-io',
     'ui.bootstrap',
-    'ngMaterial'
+    'ngMaterial',
+    'xeditable',
+    'angularHelpOverlay'
   ])
   .config(function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
@@ -49,8 +51,13 @@ angular.module('heroesApp', [
   $rootScope.$on('$routeChangeStart', function(event, next) {
     Auth.isLoggedInAsync(function(loggedIn) {
       var verified = Auth.isVerified();
-      if (!verified && loggedIn){
-        $location.path('/verify');
+      var destination = $location.url();
+      if (!verified && loggedIn && destination.indexOf('/verify/email') == -1){
+        Auth.refresh(function(currentUser){
+          if (currentUser.role == 'unverified'){
+            $location.path('/verify');
+          }
+        })
       }
       if (next.authenticate && !loggedIn) {
         $location.path('/login');

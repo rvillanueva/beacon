@@ -5,7 +5,6 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
-var twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -39,7 +38,7 @@ exports.all = function(req, res) {
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
-  newUser.role = 'user';
+  newUser.role = 'unverified';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
@@ -127,6 +126,14 @@ exports.updateProfile = function(req, res, next) {
       return res.json(401);
     } else {
       var updated = _.merge(user, req.body);
+      if(req.body.traits){
+        if(!updated.traits){
+          updated.traits = {}
+        }
+        if(req.body.traits.tags && req.body.traits.tags !== updated.traits.tags){
+          updated.traits.tags = req.body.traits.tags;
+        }
+      }
       updated.save(function(err) {
         if (err) return validationError(res, err);
         res.send(200);
@@ -136,49 +143,6 @@ exports.updateProfile = function(req, res, next) {
 };
 
 
-
-// Send verification text
-exports.verifyPhone = function(req, res) {
-  console.log(req.body)
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) {
-    console.log(user)
-    if (err) return next(err);
-    if (!user) {
-      return res.json(401);
-    } else {
-      twilio.sendMessage({
-
-          to: req.body.phone, // Any number Twilio can deliver to
-          from: process.env.TWILIO_NUMBER, // A number you bought from Twilio and can use for outbound communication
-          body: 'Welcome to IBM Heroes! To verify your phone number, please reply to this text with the number of hours you are available to respond to requests this week (0-50).' // body of the SMS message
-
-      }, function(err, responseData) {
-
-          if (!err) { // "err" is an error received during the request, if any
-              console.log(responseData.from);
-              console.log(responseData.body);
-
-          }
-      });
-      if(!user.verification) {
-        user.verification = {
-          phone: req.body.phone
-        }
-      } else {
-        user.verification.phone = req.body
-      }
-
-      user.save(function(err) {
-        if (err) return validationError(res, err);
-        res.send(200);
-      });
-    }
-  });
-
-};
 
 /**
  * Authentication callback

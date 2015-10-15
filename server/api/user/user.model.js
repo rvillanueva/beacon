@@ -18,14 +18,8 @@ var UserSchema = new Schema({
   salt: String,
   phone: String,
   pictureUrl: String,
-  verified: Boolean,
   verification: {
-    phone: {
-      number: String
-      , verified: Boolean
-      , code: Number
-    }
-    , email: {
+    email: {
       verified: Boolean
       , address: String
       , code: {
@@ -36,15 +30,23 @@ var UserSchema = new Schema({
     }
   },
   lastLogin: Date,
-  ready: Boolean,
   title: String,
   linkedin: {},
   traits: {
-    industry: {},
-    service: {},
-    hours: Number,
-    skills: {},
-    availableOn: Date
+    availableOn: Date,
+    availability: String,
+    tags: [
+      {
+        tag: String
+      }
+    ],
+    managers: Array,
+    seeking: String,
+    about: String,
+    industry: {}, // deprecated
+    service: {}, // deprecated
+    hours: Number, // deprecated
+    skills: {} // deprecated
   }
 });
 
@@ -67,6 +69,7 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      '_id': this._id,
       'name': this.name,
       'role': this.role,
       'pictureUrl': this.pictureUrl,

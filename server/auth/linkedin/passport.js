@@ -17,7 +17,7 @@ exports.setup = function (User, config) {
 
         var newUser = new User({
           name: profile.displayName,
-          role: 'user',
+          role: 'unverified',
           provider: 'linkedin',
           linkedin: profile._json,
           title: profile._json.headline,
@@ -37,6 +37,7 @@ exports.setup = function (User, config) {
         });
       } else {
         user.pictureUrl = profile._json.pictureUrl;
+        user.linkedin = profile._json;
         user.save();
         return done(null, user);
       }

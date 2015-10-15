@@ -151,6 +151,18 @@ angular.module('heroesApp')
        */
       getToken: function() {
         return $cookieStore.get('token');
+      },
+
+
+      /**
+       * Refresh current user
+       */
+      refresh: function(cb){
+        if($cookieStore.get('token')) {
+          currentUser = User.get(function(){
+            cb(currentUser)
+          });
+        }
       }
     };
   });

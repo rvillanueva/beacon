@@ -1,0 +1,13 @@
+
+@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+
+// Colors
+// --------------------------------------------------
+
+$btnText:                           #fff;
+$btnTextAlt:                        #000;
+
+.big-icon {
+  font-size: 3em;
+  color: $brand-success;
+}
