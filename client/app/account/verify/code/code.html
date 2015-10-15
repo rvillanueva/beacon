@@ -1,0 +1,26 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-md-4 col-sm-offset-4">
+      <br>
+      <br>
+      <br>
+      <div ng-if="!error">
+        <md-progress-circular class="md-primary md-default-theme" md-mode="indeterminate" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="transform: scale(1);">
+        </md-progress-circular>
+      </div>
+      <div ng-if="error">
+        <h1>Sorry, looks like something went wrong!</h1>
+        <br>Please try your link again or <a href="/verify">click here</a> to resend your verification email.
+      </div>
+      <br>
+      <br>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
+<div ng-include="'components/footer/footer.html'"></div>

@@ -15,10 +15,13 @@
         </div>
         <!--START Visit cover buttons-->
         <div class="visit-cover-buttons">
-          <div class="dropdown">
-            <button class="dropdown-toggle btn-width-medium md-raised md-button md-default-theme" ng-class="{'md-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'), 'md-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'), 'md-warning':profile.traits.availability == 'Temporary'}"
-            type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
-              &nbsp;&nbsp;<span>{{profile.traits.availability || "Not Available"}}</span>
+          <div class="dropdown" data-intro="Update your availability regularly so projects can find you. If you do not update your availability, it will default to Not Available." data-position="top">
+            <button class="dropdown-toggle btn-width-medium md-raised md-button md-default-theme" ng-class="
+            { 'md-success':(profile.traits.availability == 'Full Time' || profile.traits.availability == 'Part Time'),
+              'md-default':(!profile.traits.availability || profile.traits.availability == 'Not Available'),
+              'md-warning':profile.traits.availability == 'Temporary'}" type="button" id="statusMenu" data-toggle="dropdown" aria-expanded="true">
+              &nbsp;&nbsp;
+              <span>{{profile.traits.availability || "Not Available"}}</span>
               &nbsp;
               <span class="caret" ng-if="isOwner"></span>&nbsp;
             </button>
@@ -40,10 +43,14 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" data-intro="Set your role information and create tags to help others find you based on your skills." data-position="top">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="form-group row" ng-show="profile.title || isOwner">
+            <div class="col-md-12" ng-show="profile.email">
+              <strong>Email:&nbsp;</strong>
+              <a href="mailto:{{profile.email}}">{{profile.email}}</a>
+            </div>
             <div class="col-md-12">
               <strong>Role</strong>
               <br>
@@ -69,11 +76,13 @@
         <div class="panel-body">
           <h4>Tags</h4>
           <form ng-submit="addTag($event)" ng-show="isOwner">
-            <input ng-model="newTag">&nbsp;<button type="submit" class="md-primary md-button md-default-theme"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Tag</button>
-            <br><br>
+            <input ng-model="newTag">&nbsp;
+            <button type="submit" class="md-primary md-button md-default-theme"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Tag</button>
+            <br>
+            <br>
           </form>
           <span ng-repeat="tag in profile.traits.tags">
-            <span class="label label-default" >
+            <span class="label label-default">
               {{tag.tag}}
               <span ng-show="isOwner">
                 &nbsp;
@@ -87,7 +96,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" data-intro="Tell others what type of projects you\'re looking for and why they should choose you." data-position="top">
       <div class="panel panel-default" ng-show="profile.seeking || isOwner">
         <div class="panel-body">
           <h4>Looking For</h4>
@@ -113,10 +122,11 @@
       <div class="panel panel-default" ng-show="profile.linkedin.positions.values.length > 0">
         <div class="panel-body">
           <h4>
-            <span ng-show="profile.linkedin.positions.values[0].isCurrent == true">Current</span><span ng-show="profile.linkedin.positions.values[0].isCurrent == false">Last</span>&nbsp;Position</h4>
-            <strong>{{profile.linkedin.positions.values[0].title}} @ {{profile.linkedin.positions.values[0].company.name}}</strong>
-            <br>
-            <div class="whitespaced">{{profile.linkedin.positions.values[0].summary}}</div>
+            <span ng-show="profile.linkedin.positions.values[0].isCurrent == true">Current</span>
+            <span ng-show="profile.linkedin.positions.values[0].isCurrent == false">Last</span>&nbsp;Position</h4>
+          <strong>{{profile.linkedin.positions.values[0].title}} @ {{profile.linkedin.positions.values[0].company.name}}</strong>
+          <br>
+          <div class="whitespaced">{{profile.linkedin.positions.values[0].summary}}</div>
         </div>
       </div>
 

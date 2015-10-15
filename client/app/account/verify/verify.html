@@ -1,0 +1,36 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-md-4 col-sm-offset-4">
+      <br>
+      <br>
+      <br>
+      <div ng-show="!success">
+        <h1>Verify IBM Email</h1>
+        <br>Please enter your IBM email:
+        <br>
+        <br>
+        <form ng-submit="send($event)">
+          <input type="text" class="form-control" ng-model="email">
+          <button class="btn-width-large btn-lg md-raised md-primary md-button md-default-theme" type="submit">
+            &nbsp;&nbsp;&nbsp;Send Verification&nbsp;&nbsp;&nbsp;
+          </button>
+        </form>
+      </div>
+      <div ng-show="success">
+        <span class="fa fa-check-circle big-icon"></span>
+        <h1>Success!</h1>
+        Verification email sent to {{email}}!
+        <br><br>
+        <p class="text-muted">Wrong email? <a href="#" ng-click="success = false">Change it</a>.</p>
+      </div>
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
+<div ng-include="'components/footer/footer.html'"></div>

@@ -17,7 +17,7 @@ exports.setup = function (User, config) {
 
         var newUser = new User({
           name: profile.displayName,
-          role: 'user',
+          role: 'unverified',
           provider: 'linkedin',
           linkedin: profile._json,
           title: profile._json.headline,

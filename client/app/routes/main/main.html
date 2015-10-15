@@ -18,7 +18,11 @@
     <br>&nbsp;
   </div>
   <div class="row">
-    <div class="col-md-4" ng-repeat="user in users | userFilter:availability:searchedTag">
+    <div class="centered" ng-if="filtered.length == 0">
+      <br><br>
+      Sorry, it looks like there aren't any users available.
+    </div>
+    <div class="col-md-4" ng-repeat="user in filtered = (users | userFilter:availability:searchedTag)" ng-show="filtered.length > 0">
       <a ng-href="/profile/view/{{user._id}}" class="list-group-item user-card">
         <div class="centered">
           <div>
@@ -48,6 +52,7 @@
 
         </div>
       </a>
+      <br>&nbsp;
     </div>
   </div>
 </div>

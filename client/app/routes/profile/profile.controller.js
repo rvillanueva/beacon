@@ -1,9 +1,21 @@
 'use strict';
 
 angular.module('heroesApp')
-  .controller('ProfileCtrl', function ($scope, User, profileFactory, $location, $routeParams) {
+  .controller('ProfileCtrl', function ($scope, User, profileFactory, $location, $routeParams, $timeout) {
     $scope.coverClass = 'visit-generic'
     $scope.newTag = '';
+
+    if($routeParams.tutorial){
+      $scope.tutorial = true;
+      $timeout(function(){
+        $('body').chardinJs('start')
+      }, 1000)
+    } else {
+      $scope.tutorial = false;
+    }
+
+
+    console.log($scope.tutorial)
 
     $scope.checkOwner = function(){
       User.get(function(me){
