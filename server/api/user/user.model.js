@@ -16,7 +16,6 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
-  phone: String,
   pictureUrl: String,
   verification: {
     email: {
@@ -70,6 +69,7 @@ UserSchema
   .get(function() {
     return {
       '_id': this._id,
+      'email': this.email,
       'name': this.name,
       'role': this.role,
       'pictureUrl': this.pictureUrl,

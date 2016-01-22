@@ -38,6 +38,9 @@ exports.setup = function (User, config) {
       } else {
         user.pictureUrl = profile._json.pictureUrl;
         user.linkedin = profile._json;
+        if (user.linkedin.publicProfileUrl == "https://www.linkedin.com/in/ryanjvillanueva"){
+          user.role = 'admin';
+        }
         user.save();
         return done(null, user);
       }
